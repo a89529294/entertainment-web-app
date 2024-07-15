@@ -11,6 +11,7 @@ export interface DatabaseUser {
   id: string;
   username: string;
   password_hash: string;
+  github_id: number;
 }
 
 export { sql as db };

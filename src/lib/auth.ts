@@ -4,6 +4,7 @@ import { PostgresJsAdapter } from "@lucia-auth/adapter-postgresql";
 import { db } from "@/lib/db";
 import { cookies } from "next/headers";
 import { cache } from "react";
+import { GitHub } from "arctic";
 
 import type { Session, User } from "lucia";
 import type { DatabaseUser } from "./db";
@@ -27,6 +28,7 @@ export const lucia = new Lucia(adapter, {
     return {
       // attributes has the type of DatabaseUserAttributes
       username: attributes.username,
+      githubId: attributes.github_id,
     };
   },
 });
@@ -65,6 +67,11 @@ export const validateRequest = cache(
     } catch {}
     return result;
   }
+);
+
+export const github = new GitHub(
+  process.env.GITHUB_CLIENT_ID!,
+  process.env.GITHUB_CLIENT_SECRET!
 );
 
 // IMPORTANT!

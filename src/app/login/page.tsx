@@ -28,6 +28,10 @@ export default async function Page() {
         <button>Continue</button>
       </Form>
       <Link href="/signup">Create an account</Link>
+
+      <br />
+
+      <a href="/login/github">Sign in with GitHub</a>
     </>
   );
 }
