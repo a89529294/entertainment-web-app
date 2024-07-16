@@ -30,8 +30,10 @@ export default async function Page() {
       <Link href="/signup">Create an account</Link>
 
       <br />
-
       <a href="/login/github">Sign in with GitHub</a>
+
+      <br />
+      <a href="/login/google">Sign in with Google</a>
     </>
   );
 }

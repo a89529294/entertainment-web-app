@@ -1,4 +1,4 @@
-import { github, lucia } from "@/lib/auth";
+import { google, lucia } from "@/lib/auth";
 import { cookies } from "next/headers";
 import { OAuth2RequestError } from "arctic";
 import { generateIdFromEntropySize } from "lucia";
@@ -9,25 +9,41 @@ export async function GET(request: Request): Promise<Response> {
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
 
-  const storedState = cookies().get("github_oauth_state")?.value ?? null;
+  const storedState = cookies().get("google_oauth_state")?.value ?? null;
+  const storedCodeVerifier =
+    cookies().get("google_code_verifier")?.value ?? null;
 
   try {
-    if (!code || !state || !storedState || state !== storedState) {
+    if (
+      !code ||
+      !state ||
+      !storedCodeVerifier ||
+      !storedState ||
+      state !== storedState
+    ) {
       return new Response(null, {
         status: 400,
       });
     }
 
-    const tokens = await github.validateAuthorizationCode(code);
-    const githubUserResponse = await fetch("https://api.github.com/user", {
-      headers: {
-        Authorization: `Bearer ${tokens.accessToken}`,
-      },
-    });
-    const githubUser: GitHubUser = await githubUserResponse.json();
+    const tokens = await google.validateAuthorizationCode(
+      code,
+      storedCodeVerifier
+    );
+
+    const googleUserResponse = await fetch(
+      "https://openidconnect.googleapis.com/v1/userinfo",
+      {
+        headers: {
+          Authorization: `Bearer ${tokens.accessToken}`,
+        },
+      }
+    );
+    const googleUser: GoogleUser = await googleUserResponse.json();
+    console.log(googleUser);
 
     const existingUsers =
-      await db`SELECT * FROM "user" WHERE github_id = ${githubUser.id}`;
+      await db`SELECT * FROM "user" WHERE google_id = ${googleUser.sub}`;
     const existingUser = existingUsers[0];
 
     if (existingUser) {
@@ -49,7 +65,7 @@ export async function GET(request: Request): Promise<Response> {
     const userId = generateIdFromEntropySize(10); // 16 characters long
 
     // Replace this with your own DB client.
-    await db`INSERT INTO "user" (id, github_id, username) VALUES (${userId}, ${githubUser.id}, ${githubUser.login})`;
+    await db`INSERT INTO "user" (id, google_id, username) VALUES (${userId}, ${googleUser.sub}, ${googleUser.name})`;
 
     const session = await lucia.createSession(userId, {});
     const sessionCookie = lucia.createSessionCookie(session.id);
@@ -79,7 +95,4 @@ export async function GET(request: Request): Promise<Response> {
   }
 }
 
-interface GitHubUser {
-  id: string;
-  login: string;
-}
+type GoogleUser = any;
