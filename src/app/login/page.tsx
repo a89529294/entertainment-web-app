@@ -1,46 +1,19 @@
-import Link from "next/link";
-
+import { AuthPageShell } from "@/components/auth/auth-page-shell";
+import { type ActionResult } from "@/components/auth/form";
+import { lucia } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { verify } from "@node-rs/argon2";
 import { cookies } from "next/headers";
-import { lucia, validateRequest } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { Form } from "@/lib/form";
-
-import type { DatabaseUser } from "@/lib/db";
-import type { ActionResult } from "@/lib/form";
 
 export default async function Page() {
-  const { user } = await validateRequest();
-  if (user) {
-    return redirect("/");
-  }
-  return (
-    <>
-      <h1>Sign in</h1>
-      <Form action={login}>
-        <label htmlFor="username">Username</label>
-        <input name="username" id="username" />
-        <br />
-        <label htmlFor="password">Password</label>
-        <input type="password" name="password" id="password" />
-        <br />
-        <button>Continue</button>
-      </Form>
-      <Link href="/signup">Create an account</Link>
-
-      <br />
-      <a href="/login/github">Sign in with GitHub</a>
-
-      <br />
-      <a href="/login/google">Sign in with Google</a>
-    </>
-  );
+  return <AuthPageShell type="login" onSubmit={login} />;
 }
 
 async function login(_: any, formData: FormData): Promise<ActionResult> {
   "use server";
   const username = formData.get("username");
+
   if (
     typeof username !== "string" ||
     username.length < 3 ||

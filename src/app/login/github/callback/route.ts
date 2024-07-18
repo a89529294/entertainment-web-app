@@ -1,5 +1,5 @@
 import { github, lucia } from "@/lib/auth";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { OAuth2RequestError } from "arctic";
 import { generateIdFromEntropySize } from "lucia";
 import { db } from "@/lib/db";
@@ -14,7 +14,10 @@ export async function GET(request: Request): Promise<Response> {
   try {
     if (!code || !state || !storedState || state !== storedState) {
       return new Response(null, {
-        status: 400,
+        status: 302,
+        headers: {
+          location: "/login",
+        },
       });
     }
 

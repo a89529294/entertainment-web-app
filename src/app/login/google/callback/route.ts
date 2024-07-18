@@ -22,7 +22,10 @@ export async function GET(request: Request): Promise<Response> {
       state !== storedState
     ) {
       return new Response(null, {
-        status: 400,
+        status: 302,
+        headers: {
+          location: "/login",
+        },
       });
     }
 

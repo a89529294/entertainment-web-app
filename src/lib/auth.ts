@@ -29,6 +29,7 @@ export const lucia = new Lucia(adapter, {
       // attributes has the type of DatabaseUserAttributes
       username: attributes.username,
       githubId: attributes.github_id,
+      googleId: attributes.google_id,
     };
   },
 });

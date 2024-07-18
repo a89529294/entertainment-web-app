@@ -1,32 +1,15 @@
-import { db } from "@/lib/db";
 import { hash } from "@node-rs/argon2";
-import { cookies } from "next/headers";
-import { lucia } from "@/lib/auth";
-import { redirect } from "next/navigation";
 import { generateIdFromEntropySize } from "lucia";
-import { Form } from "@/lib/form";
-import Link from "next/link";
+
+import { AuthPageShell } from "@/components/auth/auth-page-shell";
+import { type ActionResult } from "@/components/auth/form";
+import { lucia } from "@/lib/auth";
+import { db } from "@/lib/db";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export default async function Page() {
-  // const { user } = await validateRequest();
-  // if (user) {
-  // 	return redirect("/");
-  // }
-  return (
-    <>
-      <h1>Create an account</h1>
-      <Form action={signup}>
-        <label htmlFor="username">Username:</label>
-        <input name="username" id="username" />
-        <br />
-        <label htmlFor="password">Password:</label>
-        <input type="password" name="password" id="password" />
-        <br />
-        <button>Continue</button>
-      </Form>
-      <Link href="/login">Sign in</Link>
-    </>
-  );
+  return <AuthPageShell type="signup" onSubmit={signup} />;
 }
 
 async function signup(_: any, formData: FormData): Promise<ActionResult> {
@@ -81,8 +64,4 @@ async function signup(_: any, formData: FormData): Promise<ActionResult> {
     sessionCookie.attributes
   );
   return redirect("/");
-}
-
-interface ActionResult {
-  error: string;
 }

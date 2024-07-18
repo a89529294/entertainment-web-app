@@ -1,12 +1,11 @@
 import { lucia, validateRequest } from "@/lib/auth";
-import { Form } from "@/lib/form";
+import { Form, type ActionResult } from "@/components/auth/form";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 
-import type { ActionResult } from "@/lib/form";
-
 export default async function Page() {
   const { user } = await validateRequest();
+
   if (!user) {
     return redirect("/login");
   }
