@@ -1,19 +1,16 @@
-import { hash } from "@node-rs/argon2";
-import { generateIdFromEntropySize } from "lucia";
 import Link from "next/link";
 
+import { AuthFormContent } from "@/components/auth/auth-form-content";
+import { Form, type ActionResult } from "@/components/auth/form";
+import { AuthPageType } from "@/components/auth/types";
 import { ChromeIcon, GitlabIcon } from "@/components/icons";
 import { buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { lucia, validateRequest } from "@/lib/auth";
-import { db } from "@/lib/db";
-import { Form, type ActionResult } from "@/components/auth/form";
+import { validateRequest } from "@/lib/auth";
 import { cn } from "@/lib/utils";
-import { verify } from "@node-rs/argon2";
-import { cookies } from "next/headers";
+import Image from "next/image";
 import { redirect } from "next/navigation";
-import { AuthPageType } from "@/components/auth/types";
-import { AuthFormContent } from "@/components/auth/auth-form-content";
+import logo from "@/assets/logo-192.png";
 
 const typeMap = {
   login: {
@@ -48,7 +45,10 @@ export async function AuthPageShell({
       <div className="mx-auto w-80 space-y-6">
         <div className="space-y-2 text-center">
           <h1 className="text-3xl font-bold">{typeMap[type]["title"]}</h1>
-          <p className="text-muted-foreground">{typeMap[type]["subTitle"]}</p>
+          <p className="text-main-purple flex items-center justify-center">
+            <Image alt="logo" src={logo} className="size-8" />
+            Kanban Task Management
+          </p>
         </div>
 
         <Form className="space-y-4" action={onSubmit}>
