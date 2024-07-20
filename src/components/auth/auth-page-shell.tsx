@@ -37,11 +37,13 @@ export async function AuthPageShell({
   type: keyof typeof typeMap;
 }) {
   const { user } = await validateRequest();
+
   if (user) {
     return redirect("/");
   }
+
   return (
-    <div className="flex min-h-[100dvh] flex-col items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
+    <div className="flex h-[100dvh] flex-col items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto w-80 space-y-6">
         <div className="space-y-2 text-center">
           <h1 className="text-3xl font-bold">{typeMap[type]["title"]}</h1>

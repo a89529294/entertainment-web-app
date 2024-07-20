@@ -43,7 +43,6 @@ export async function GET(request: Request): Promise<Response> {
       }
     );
     const googleUser: GoogleUser = await googleUserResponse.json();
-    console.log(googleUser);
 
     const existingUsers =
       await db`SELECT * FROM "user" WHERE google_id = ${googleUser.sub}`;

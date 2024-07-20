@@ -26,6 +26,7 @@ const config = {
         "main-purple": "#635FC7",
         "light-grey": "#F4F7FD",
         "medium-grey": "#828FA3",
+        red: "#EA5555",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -60,6 +61,7 @@ const config = {
           foreground: "hsl(var(--card-foreground))",
         },
       },
+
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",

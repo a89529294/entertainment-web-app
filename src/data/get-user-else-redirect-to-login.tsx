@@ -12,3 +12,8 @@ export async function getUserElseRedirectToLogin() {
 
   return user;
 }
+
+export async function getUser() {
+  const { user } = await validateRequest();
+  return user;
+}

@@ -1,34 +1,35 @@
 import postgres from "postgres";
 
-// declare global {
-//   var sql: postgres.Sql<{}>;
-// }
+// use env variables in production
+declare global {
+  var sql: postgres.Sql<{}>;
+}
 
-// let sql: postgres.Sql<{}>;
-// if (process.env.NODE_ENV === "production") {
-//   sql = postgres({
-//     database: "kanban",
-//     user: "postgres",
-//     password: "790527",
-//   });
-// } else {
-//   if (!global.sql) {
-//     global.sql = postgres({
-//       database: "kanban",
-//       user: "postgres",
-//       password: "790527",
-//     });
-//   }
+let sql: postgres.Sql<{}>;
+if (process.env.NODE_ENV === "production") {
+  sql = postgres({
+    database: "kanban",
+    user: "postgres",
+    password: "790527",
+  });
+} else {
+  if (!global.sql) {
+    global.sql = postgres({
+      database: "kanban",
+      user: "postgres",
+      password: "790527",
+    });
+  }
 
-//   sql = global.sql;
-// }
+  sql = global.sql;
+}
 
 // use env variables in production
-const sql = postgres({
-  database: "kanban",
-  user: "postgres",
-  password: "790527",
-});
+// const sql = postgres({
+//   database: "kanban",
+//   user: "postgres",
+//   password: "790527",
+// });
 
 export interface DatabaseUser {
   id: string;
