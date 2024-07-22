@@ -34,8 +34,23 @@ export function BoardSelect({ boards }: { boards: Board[] }) {
     if (!board) router.replace("/");
   }, [board, router]);
 
+  useEffect(() => {
+    const mode = localStorage.getItem("theme");
+    if (mode === "dark") {
+      setMode("dark");
+      document.documentElement.classList.add("dark");
+    } else {
+      setMode("light");
+      document.documentElement.classList.remove("dark");
+    }
+  }, []);
+
   return (
-    <NavigationMenu value={value} onValueChange={setValue}>
+    <NavigationMenu
+      value={value}
+      onValueChange={setValue}
+      viewportClassName="top-9"
+    >
       <div
         className={cn(
           "fixed inset-0 top-16 bg-black/50 transition-opacity ",
@@ -57,7 +72,7 @@ export function BoardSelect({ boards }: { boards: Board[] }) {
             onPointerEnter={(e) => e.preventDefault()}
             onPointerLeave={(e) => e.preventDefault()}
             className={cn(
-              "py-4 pr-6 text-medium-grey rounded-md",
+              "py-4 pr-6 text-medium-grey rounded-lg",
               textHeadingM
             )}
           >
@@ -77,8 +92,9 @@ export function BoardSelect({ boards }: { boards: Board[] }) {
                       <NavigationMenuLink
                         className={cn(
                           navigationMenuTriggerStyle(),
-                          "w-60 rounded-r-full justify-start px-6 py-3.5 h-auto ",
-                          isSelected && "bg-main-purple text-white"
+                          "w-60 dark:bg-transparent rounded-r-full justify-start px-6 py-3.5 h-auto ",
+                          isSelected &&
+                            "bg-main-purple dark:bg-main-purple text-white hover:bg-main-purple hover:text-white focus:bg-main-purple focus:text-white focus:outline-none"
                         )}
                       >
                         <BoardIcon
@@ -91,22 +107,39 @@ export function BoardSelect({ boards }: { boards: Board[] }) {
                   );
                 })
               : null}
+
             <NavigationMenuLink
               className={cn(
                 navigationMenuTriggerStyle(),
-                "w-60 rounded-r-full justify-start px-6 py-3.5 h-auto text-main-purple"
+                "w-60 rounded-r-full dark:bg-transparent justify-start px-6 py-3.5 h-auto text-main-purple"
               )}
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+              }}
             >
               <BoardIcon fill="#635FC7" className="mr-3" />+ Create New Board
             </NavigationMenuLink>
-            <div className="ml-6 gap-6 flex justify-center py-3.5 bg-light-grey">
+
+            <div className="ml-6 gap-6 flex justify-center py-3.5 bg-light-grey dark:bg-dark-grey">
               <Image src={sunIcon} alt="light mode" />
               <button
                 className={cn(
                   "h-5 flex bg-main-purple w-10 p-[3px] rounded-full",
                   mode === "light" ? "justify-start" : "justify-end"
                 )}
-                onClick={() => setMode(mode === "light" ? "dark" : "light")}
+                onClick={() => {
+                  const newMode = mode === "light" ? "dark" : "light";
+                  setMode(newMode);
+
+                  if (newMode === "dark") {
+                    document.documentElement.classList.add("dark");
+                    localStorage.setItem("theme", "dark");
+                  } else {
+                    document.documentElement.classList.remove("dark");
+                    localStorage.setItem("theme", "light");
+                  }
+                }}
               >
                 <motion.div
                   layout

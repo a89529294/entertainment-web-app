@@ -2,7 +2,7 @@ import type { Config } from "tailwindcss";
 const { fontFamily } = require("tailwindcss/defaultTheme");
 
 const config = {
-  darkMode: ["class"],
+  darkMode: ["selector"],
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
@@ -26,6 +26,8 @@ const config = {
         "main-purple": "#635FC7",
         "light-grey": "#F4F7FD",
         "medium-grey": "#828FA3",
+        "dark-grey": "#2B2C37",
+        "very-dark-grey": "#20212C",
         red: "#EA5555",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

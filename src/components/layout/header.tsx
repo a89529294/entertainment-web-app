@@ -11,7 +11,7 @@ export async function Header() {
   const boards = user ? await getUserBoards(user.id) : [];
 
   return (
-    <header className="bg-white px-4 py-5 flex gap-4 items-center sticky top-0 z-10">
+    <header className="bg-white px-4 py-5 flex gap-4 items-center sticky top-0 z-10 dark:bg-dark-grey">
       <Image alt="logo" src={logo} className="size-6" />
       <BoardSelect boards={boards} />
 
