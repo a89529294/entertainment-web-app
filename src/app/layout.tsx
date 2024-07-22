@@ -21,6 +21,7 @@ export default function RootLayout({
     <html lang="en" className="h-full">
       <body className={cn("font-sans antialiased h-full", fontSans.variable)}>
         {children}
+        <div id="portal" />
       </body>
     </html>
   );
