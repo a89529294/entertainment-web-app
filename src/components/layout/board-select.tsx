@@ -1,38 +1,22 @@
 "use client";
 
-import { BoardIcon } from "@/components/icons/board-icon";
 import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 
+import { BoardSelectLinks } from "@/components/layout/board-select-link";
 import { CreateNewBoard } from "@/components/layout/create-new-board";
+import { NewBoardDialog } from "@/components/layout/new-board-dialog";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { Board } from "@/data/types";
 import { cn } from "@/lib/utils";
-import {
-  textBodyM,
-  textHeadingL,
-  textHeadingM,
-} from "@/styles/custom-class-names";
-import Link from "next/link";
+import { textHeadingM } from "@/styles/custom-class-names";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 
 export function BoardSelect({ boards }: { boards: Board[] }) {
   const params = useParams();
@@ -82,65 +66,15 @@ export function BoardSelect({ boards }: { boards: Board[] }) {
               )}
             >
               {showDialog ? (
-                <Dialog
-                  open={showDialog}
-                  onOpenChange={(open) => {
-                    setTimeout(() => {
-                      setShowDialog(open);
-                    }, 1000);
-                    !open && setValue("");
-                  }}
-                >
-                  <DialogContent className="p-6 gap-6">
-                    <DialogHeader>
-                      <DialogTitle className={cn("text-left", textHeadingL)}>
-                        Add New Board
-                      </DialogTitle>
-                    </DialogHeader>
-                    <div>
-                      <Label className="space-y-2 font-bold text-xs text-medium-grey">
-                        <h3>Board Name</h3>
-                        <Input className="" />
-                      </Label>
-                    </div>
-                  </DialogContent>
-                </Dialog>
+                <NewBoardDialog
+                  setValue={setValue}
+                  setShowDialog={setShowDialog}
+                  showDialog={showDialog}
+                />
               ) : (
                 <>
-                  <p className={cn("px-6 pb-5", textBodyM)}>
-                    All BOARDS ({boards.length})
-                  </p>
-                  {boards.length
-                    ? boards.map((board) => {
-                        const isSelected =
-                          board.id.toString() === params.board_id;
-                        return (
-                          <Link
-                            key={board.id.toString()}
-                            href={`/boards/${board.id}`}
-                            legacyBehavior
-                            passHref
-                          >
-                            <NavigationMenuLink
-                              className={cn(
-                                navigationMenuTriggerStyle(),
-                                "w-60 dark:bg-transparent rounded-r-full justify-start px-6 py-3.5 h-auto ",
-                                isSelected &&
-                                  "bg-main-purple dark:bg-main-purple text-white hover:bg-main-purple hover:text-white focus:bg-main-purple focus:text-white focus:outline-none"
-                              )}
-                            >
-                              <BoardIcon
-                                fill={isSelected ? "#fff" : "#828FA3"}
-                                className="mr-3"
-                              />
-                              {board.name}
-                            </NavigationMenuLink>
-                          </Link>
-                        );
-                      })
-                    : null}
+                  <BoardSelectLinks boards={boards} />
                   <CreateNewBoard setShowDialog={() => setShowDialog(true)} />
-
                   <ThemeToggle />
                 </>
               )}

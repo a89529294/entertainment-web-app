@@ -56,6 +56,9 @@ export async function GET(request: Request): Promise<Response> {
         sessionCookie.value,
         sessionCookie.attributes
       );
+      cookies().set("userId", existingUser.id, {
+        maxAge: sessionCookie.attributes.maxAge,
+      });
       return new Response(null, {
         status: 302,
         headers: {
@@ -76,6 +79,9 @@ export async function GET(request: Request): Promise<Response> {
       sessionCookie.value,
       sessionCookie.attributes
     );
+    cookies().set("userId", userId, {
+      maxAge: sessionCookie.attributes.maxAge,
+    });
     return new Response(null, {
       status: 302,
       headers: {

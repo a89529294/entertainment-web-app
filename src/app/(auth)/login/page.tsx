@@ -66,10 +66,15 @@ async function login(_: any, formData: FormData): Promise<ActionResult> {
 
   const session = await lucia.createSession(existingUser[0].id, {});
   const sessionCookie = lucia.createSessionCookie(session.id);
+  console.log(sessionCookie.attributes);
   cookies().set(
     sessionCookie.name,
     sessionCookie.value,
     sessionCookie.attributes
   );
+
+  cookies().set("userId", existingUser[0].id, {
+    maxAge: sessionCookie.attributes.maxAge,
+  });
   return redirect("/");
 }

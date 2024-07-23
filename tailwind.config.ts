@@ -24,6 +24,7 @@ const config = {
       },
       colors: {
         "main-purple": "#635FC7",
+        "main-purple-hover": "#A8A4FF",
         "light-grey": "#F4F7FD",
         "medium-grey": "#828FA3",
         "dark-grey": "#2B2C37",

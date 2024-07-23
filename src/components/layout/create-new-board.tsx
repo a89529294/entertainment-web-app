@@ -20,7 +20,6 @@ export function CreateNewBoard({
       )}
       href="#"
       onClick={(e) => {
-        console.log("?");
         setShowDialog();
         e.preventDefault();
       }}

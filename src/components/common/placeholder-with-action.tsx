@@ -15,7 +15,7 @@ export function PlaceholderWithAction({
         <p className="text-medium-grey font-bold text-lg px-10 text-center">
           {text}
         </p>
-        <MyButton variant="primary" onClick={onAdd}>
+        <MyButton size="tall" variant="primary" onClick={onAdd}>
           {onAddLabel}
         </MyButton>
       </div>
