@@ -9,7 +9,7 @@ export default function RootLayout({
   return (
     <main className={cn("min-h-full bg-light-grey flex flex-col")}>
       <Header />
-      <div className="flex-1 dark:bg-very-dark-grey">{children}</div>
+      <div className="flex-1 dark:bg-very-dark-grey relative">{children}</div>
     </main>
   );
 }

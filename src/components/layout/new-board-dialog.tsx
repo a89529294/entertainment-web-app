@@ -10,11 +10,13 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { usePrevValue } from "@/hooks/use-prev-value";
 import { useUserId } from "@/hooks/use-user-id";
 import { cn } from "@/lib/utils";
 import { textHeadingL } from "@/styles/custom-class-names";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useFormStatus } from "react-dom";
 
 export function NewBoardDialog({
   showDialog,
@@ -116,12 +118,34 @@ export function NewBoardDialog({
               </MyButton>
             </fieldset>
           </div>
-          <MyButton type="submit" size="short" variant="primary">
+          {/* <MyButton type="submit" size="short" variant="primary">
             Create New Board
-          </MyButton>
+          </MyButton> */}
+          <SubmitButton
+            closeMenu={() => {
+              requestIdleCallback(() => setShowDialog(false));
+              setValue("");
+            }}
+          />
         </form>
       </DialogContent>
       <DialogDescription />
     </Dialog>
+  );
+}
+
+function SubmitButton({ closeMenu }: { closeMenu: () => void }) {
+  const { pending } = useFormStatus();
+  const prevPending = usePrevValue(pending);
+  const isMount = useRef(true);
+
+  useEffect(() => {
+    prevPending && !pending && closeMenu();
+  }, [pending, prevPending, closeMenu]);
+
+  return (
+    <MyButton type="submit" size="short" variant="primary" disabled={pending}>
+      Create New Board
+    </MyButton>
   );
 }

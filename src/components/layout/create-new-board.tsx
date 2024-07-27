@@ -20,8 +20,8 @@ export function CreateNewBoard({
       )}
       href="#"
       onClick={(e) => {
-        setShowDialog();
         e.preventDefault();
+        setShowDialog();
       }}
     >
       <BoardIcon fill="#635FC7" className="mr-3" />+ Create New Board

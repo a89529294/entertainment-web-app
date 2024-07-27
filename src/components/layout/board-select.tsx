@@ -39,12 +39,14 @@ export function BoardSelect({ boards }: { boards: Board[] }) {
         }}
         viewportClassName={cn("top-9")}
       >
-        <div
-          className={cn(
-            "fixed inset-0 top-16 bg-black/50 transition-opacity ",
-            value && !showDialog ? "opacity-100" : "opacity-0"
-          )}
-        />
+        {value && (
+          <div
+            className={cn(
+              "fixed inset-0 top-16 bg-black/50 transition-opacity ",
+              value && !showDialog ? "opacity-100" : "opacity-0"
+            )}
+          />
+        )}
 
         <NavigationMenuList>
           <NavigationMenuItem>

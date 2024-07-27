@@ -1,7 +1,5 @@
-import { lucia, validateRequest } from "@/lib/auth";
-import { Form, type ActionResult } from "@/components/auth/form";
+import { validateRequest } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
 
 export async function getUserElseRedirectToLogin() {
   const { user } = await validateRequest();

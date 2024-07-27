@@ -1,4 +1,5 @@
 import { MyButton } from "@/components/common/my-button";
+import { myButtonCN } from "@/components/common/my-button-types";
 
 export function PlaceholderWithAction({
   text,
@@ -15,9 +16,15 @@ export function PlaceholderWithAction({
         <p className="text-medium-grey font-bold text-lg px-10 text-center">
           {text}
         </p>
-        <MyButton size="tall" variant="primary" onClick={onAdd}>
-          {onAddLabel}
-        </MyButton>
+        <form
+          action={async () => {
+            "use server";
+          }}
+        >
+          <button className={myButtonCN("primary", "tall")}>
+            {onAddLabel}
+          </button>
+        </form>
       </div>
     </div>
   );
