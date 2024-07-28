@@ -15,8 +15,8 @@ export default async function Board({
     return <AddNewBoardOrColumn type="column" boardId={numericBoardId} />;
 
   return (
-    <div className="py-6 px-4">
-      <ul>
+    <div className="py-6 px-4 absolute inset-0">
+      <ul className="h-full flex gap-6">
         {columns.map((c) => {
           return <Column key={c.id} id={c.id} name={c.name} />;
         })}
