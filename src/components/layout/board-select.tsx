@@ -12,13 +12,13 @@ import { BoardSelectLinks } from "@/components/layout/board-select-link";
 import { CreateNewBoard } from "@/components/layout/create-new-board";
 import { NewBoardDialog } from "@/components/layout/new-board-dialog";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
-import { Board } from "@/data/types";
+import { TBoard } from "@/data/types";
 import { cn } from "@/lib/utils";
 import { textHeadingM } from "@/styles/custom-class-names";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export function BoardSelect({ boards }: { boards: Board[] }) {
+export function BoardSelect({ boards }: { boards: TBoard[] }) {
   const params = useParams();
   const router = useRouter();
   const [value, setValue] = useState("");

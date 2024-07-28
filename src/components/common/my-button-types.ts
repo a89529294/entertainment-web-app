@@ -1,9 +1,8 @@
 import { cn } from "@/lib/utils";
+import { textbodyL, textHeadingM } from "@/styles/custom-class-names";
+import { ComponentPropsWithRef } from "react";
 
-export type MyButtonProps = React.DetailedHTMLProps<
-  React.ButtonHTMLAttributes<HTMLButtonElement>,
-  HTMLButtonElement
-> & {
+export type MyButtonProps = ComponentPropsWithRef<"button"> & {
   variant: "primary" | "warning" | "secondary";
   size: "tall" | "short";
 };
@@ -24,10 +23,10 @@ export const variantsMap = {
 
 export const sizesMap = {
   tall: {
-    className: "h-12",
+    className: cn("h-12", textHeadingM),
   },
   short: {
-    className: "h-10",
+    className: cn("h-10", textbodyL),
   },
 } satisfies Record<MyButtonProps["size"], any>;
 

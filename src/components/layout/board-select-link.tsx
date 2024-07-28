@@ -2,14 +2,14 @@ import {
   NavigationMenuLink,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { Board } from "@/data/types";
+import { TBoard } from "@/data/types";
 import { cn } from "@/lib/utils";
 import { textBodyM } from "@/styles/custom-class-names";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { BoardIcon } from "@/components/icons/board-icon";
 
-export function BoardSelectLinks({ boards }: { boards: Board[] }) {
+export function BoardSelectLinks({ boards }: { boards: TBoard[] }) {
   const params = useParams();
   return (
     <>

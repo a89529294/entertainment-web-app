@@ -1,8 +1,8 @@
 "use server";
 
+import { TBoard, TColumn } from "@/data/types";
 import { db } from "@/lib/db";
 import { revalidateTag } from "next/cache";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function addNewBoard(userId: string, formData: FormData) {
@@ -16,16 +16,13 @@ export async function addNewBoard(userId: string, formData: FormData) {
       }) RETURNING id`;
     boardId = boards[0].id;
 
-    const columns = [] as {
-      board_id: string;
-      name: string;
-      sequence: number;
-    }[];
+    const columns = [] as Omit<TColumn, "id">[];
     Array.from(formData.entries()).forEach(([key, value]) => {
-      if (key.startsWith("columnName") && value) {
+      const trimmedValue = value.toString().trim();
+      if (key.startsWith("columnName") && trimmedValue) {
         columns.push({
-          board_id: boardId,
-          name: value as string,
+          board_id: +boardId,
+          name: trimmedValue as string,
           sequence: +key.split("-")[1],
         });
       }

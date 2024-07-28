@@ -1,16 +1,22 @@
+import { MyButton } from "@/components/common/my-button";
 import { TTask } from "@/data/types";
 import { db } from "@/lib/db";
 import { cn, generateRandomColor } from "@/lib/utils";
 import { textHeadingM, textHeadingS } from "@/styles/custom-class-names";
+import { addNewTask } from "@/actions/task";
+import { BoardTaskColumnDialog } from "@/components/common/board-task-column/board-task-column-dialog";
+import { myButtonCN } from "@/components/common/my-button-types";
+import { NewTaskForm } from "@/components/common/board-task-column/new-task-form";
+import { AddNewTaskBtn } from "@/components/common/add-new-task-btn";
+import { getTasksForColumn } from "@/data/get-tasks";
 
 export async function Column({ id, name }: { id: number; name: string }) {
-  const tasks =
-    (await db`SELECT * FROM tasks WHERE column_id = ${id}`) as TTask[];
+  const tasks = await getTasksForColumn(id);
 
   return (
     <li>
       <ul className="flex flex-col gap-5">
-        <h2 className={cn("flex gap-3", textHeadingS)}>
+        <h2 className={cn("flex gap-3 text-medium-grey", textHeadingS)}>
           <div
             className="size-4 rounded-full"
             style={{
@@ -34,6 +40,10 @@ export async function Column({ id, name }: { id: number; name: string }) {
             </li>
           );
         })}
+
+        <li>
+          <AddNewTaskBtn columnId={id} sequence={tasks.length} />
+        </li>
       </ul>
     </li>
   );

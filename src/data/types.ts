@@ -1,4 +1,4 @@
-export type Board = {
+export type TBoard = {
   id: number;
   name: string;
   user_id: string;
@@ -17,4 +17,10 @@ export type TTask = {
   name: string;
   description: string;
   sequence: number;
+};
+
+export type TSubtask = {
+  id: number;
+  task_id: number;
+  name: string;
 };
