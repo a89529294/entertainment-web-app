@@ -50,7 +50,6 @@ export async function addNewBoard(userId: string, formData: FormData) {
 export async function deleteBoard(boardId: number, formData: FormData) {
   let success = false;
   try {
-    console.log(boardId);
     await db`DELETE FROM boards WHERE id = ${boardId}`;
 
     revalidateTag("boards");
@@ -61,7 +60,6 @@ export async function deleteBoard(boardId: number, formData: FormData) {
   }
 
   if (success) {
-    // cookies().set("no-redirect-to-first-board", "", { maxAge: 0 });
     redirect("/");
   }
 }

@@ -33,6 +33,7 @@ const config = {
         "dark-grey": "#2B2C37",
         "very-dark-grey": "#20212C",
         red: "#EA5555",
+        "red-hover": "#FF9898",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

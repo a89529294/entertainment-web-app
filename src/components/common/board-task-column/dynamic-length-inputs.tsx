@@ -32,9 +32,15 @@ export function DynamicLengthInputs({
     <fieldset className="flex flex-col gap-3">
       <DialogFormLabel label={label} />
       {inputs.map((input, i) => (
-        <div key={input.id} className="flex gap-4 items-center">
+        <div key={input.id} className="flex items-center gap-4">
           <DialogFormInput name={`${nameSuffix}-${i}`} />
-          <button onClick={() => removeInput(input.id)}>
+          <button
+            type="button"
+            onClick={(e) => {
+              console.log(e.target);
+              removeInput(input.id);
+            }}
+          >
             <Image alt="x" src={grayX} />
           </button>
         </div>

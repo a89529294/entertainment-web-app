@@ -1,26 +1,23 @@
-"use client";
-
 import { MyButton } from "@/components/common/my-button";
 import { useCloseDialogAfterSubmission } from "@/hooks/use-close-dialog-after-submission";
+import { useFormStatus } from "react-dom";
 
-export function SubmitBtn({
+export function ColumnEditDropdownSubmitBtn({
   closeDialog,
-  type,
 }: {
   closeDialog: () => void;
-  type: "task" | "board" | "column";
 }) {
   const pending = useCloseDialogAfterSubmission(closeDialog);
 
   return (
     <MyButton
       disabled={pending}
-      variant={"primary"}
-      size={"short"}
       type="submit"
+      className="w-full"
+      size="short"
+      variant="destructive"
     >
-      Create New{" "}
-      {type === "board" ? "Board" : type === "column" ? "Column" : "Task"}
+      Delete
     </MyButton>
   );
 }

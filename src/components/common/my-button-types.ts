@@ -3,7 +3,7 @@ import { textbodyL, textHeadingM } from "@/styles/custom-class-names";
 import { ComponentPropsWithRef } from "react";
 
 export type MyButtonProps = ComponentPropsWithRef<"button"> & {
-  variant: "primary" | "warning" | "secondary";
+  variant: "primary" | "destructive" | "secondary";
   size: "tall" | "short";
 };
 
@@ -12,12 +12,12 @@ export const variantsMap = {
     className:
       "bg-main-purple hover:bg-main-purple-hover disabled:hover:bg-main-purple",
   },
-  warning: {
-    className: "",
+  destructive: {
+    className: "bg-red hover:bg-red-hover disabled:hover:bg-red",
   },
   secondary: {
     className:
-      "bg-main-purple/10 text-main-purple w-full hover:bg-main-purple/25 disabled:hover:bg-main-purple/10 ",
+      "bg-main-purple/10 text-main-purple hover:bg-main-purple/25 disabled:hover:bg-main-purple/10 ",
   },
 } satisfies Record<MyButtonProps["variant"], any>;
 
@@ -32,10 +32,10 @@ export const sizesMap = {
 
 export const myButtonCN = (
   variant: MyButtonProps["variant"],
-  size: MyButtonProps["size"]
+  size: MyButtonProps["size"],
 ) =>
   cn(
     "rounded-[20px] text-white font-bold px-4 items-center transition-transform active:translate-y-1 disabled:cursor-not-allowed disabled:active:translate-y-0 disabled:opacity-50 ",
     variantsMap[variant].className,
-    sizesMap[size].className
+    sizesMap[size].className,
   );

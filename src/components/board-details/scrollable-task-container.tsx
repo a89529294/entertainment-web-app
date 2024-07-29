@@ -7,28 +7,51 @@ import { useEffect, useRef, useState } from "react";
 
 export function ScrollableTaskContainer({ tasks }: { tasks: TTask[] }) {
   const ref = useRef<HTMLDivElement>(null);
+  const ref2 = useRef<HTMLDivElement>(null);
   const [scrollbarVisible, setScrollbarVisible] = useState(false);
 
   useEffect(() => {
-    if (!ref.current) return;
+    const container = ref.current;
+    const content = ref2.current;
+    if (!container || !content) return;
 
-    setScrollbarVisible(ref.current.scrollHeight > ref.current.clientHeight);
+    const updateScrollbarVisible = () => {
+      if (ref.current)
+        setScrollbarVisible(
+          ref.current.scrollHeight > ref.current.clientHeight,
+        );
+    };
+
+    const resizeObserver = new ResizeObserver((entries) => {
+      setScrollbarVisible(
+        entries[0].borderBoxSize[0].blockSize <
+          entries[1].borderBoxSize[0].blockSize,
+      );
+    });
+
+    resizeObserver.observe(container);
+    resizeObserver.observe(content);
+
+    return () => {
+      container && resizeObserver.unobserve(container);
+      content && resizeObserver.unobserve(content);
+    };
   }, []);
 
   return (
     <div
       ref={ref}
-      className="flex-1 overflow-y-auto relative scrollbar-thin scrollbar-track-transparent scrollbar-thumb-main-purple"
+      className="relative overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-main-purple"
     >
-      <div className="absolute flex flex-col gap-5 ">
+      <div className="flex flex-col gap-5" ref={ref2}>
         {tasks.map((task) => {
           return (
             <li
               key={task.id}
               className={cn(
-                "py-6 px-4 bg-white rounded-lg shadow-lg w-72",
+                "w-72 rounded-lg bg-white px-4 py-6 shadow-lg",
                 textHeadingM,
-                scrollbarVisible && "w-[269px]"
+                scrollbarVisible && "w-[269px]",
               )}
             >
               {task.name}

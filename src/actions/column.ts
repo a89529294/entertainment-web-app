@@ -7,7 +7,7 @@ import { revalidateTag } from "next/cache";
 export async function addNewColumn(
   boardId: number,
   sequence: number,
-  formData: FormData
+  formData: FormData,
 ) {
   console.log(boardId, formData);
   const name = (formData.get("name") as string).trim();
@@ -36,4 +36,14 @@ export async function addNewColumn(
   }
 
   revalidateTag("columns");
+}
+
+export async function deleteColumn(columnId: number) {
+  try {
+    await db`DELETE FROM columns WHERE id = ${columnId}`;
+
+    revalidateTag("columns");
+  } catch (e) {
+    console.log(e);
+  }
 }
