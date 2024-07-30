@@ -8,7 +8,7 @@ export default async function Page() {
   const user = await getUserElseRedirectToLogin();
   const boards = await getUserBoards(user.id);
 
-  if (boards.length) redirect(`/boards/${boards[0].id}`);
+  if (boards.length) redirect(`/boards/${boards[0].id}/${boards[0].name}`);
 
   return <AddNewBoardOrColumn type="board" userId={user.id} />;
 }

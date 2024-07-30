@@ -20,16 +20,16 @@ export function BoardSelectLinks({ boards }: { boards: TBoard[] }) {
             return (
               <Link
                 key={board.id.toString()}
-                href={`/boards/${board.id}`}
+                href={`/boards/${board.id}/${board.name}`}
                 legacyBehavior
                 passHref
               >
                 <NavigationMenuLink
                   className={cn(
                     navigationMenuTriggerStyle(),
-                    "w-60 dark:bg-transparent rounded-r-full justify-start px-6 py-3.5 h-auto ",
+                    "h-auto w-60 justify-start rounded-r-full px-6 py-3.5 dark:bg-transparent",
                     isSelected &&
-                      "bg-main-purple dark:bg-main-purple text-white hover:bg-main-purple/80 hover:text-accent-foreground focus:bg-main-purple/80 focus:text-accent-foreground focus:outline-none"
+                      "bg-main-purple text-white hover:bg-main-purple/80 hover:text-accent-foreground focus:bg-main-purple/80 focus:text-accent-foreground focus:outline-none dark:bg-main-purple",
                   )}
                 >
                   <BoardIcon

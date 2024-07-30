@@ -7,7 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const serverContext = <T>(
-  defaultValue: T
+  defaultValue: T,
 ): [() => T, (v: T) => void] => {
   const getRef = cache(() => ({ current: defaultValue }));
 
@@ -20,8 +20,17 @@ export const serverContext = <T>(
   return [getValue, setValue];
 };
 
-export function generateRandomColor() {
-  return `rgb(${Math.floor(Math.random() * 256)},${Math.floor(
-    Math.random() * 256
-  )},${Math.floor(Math.random() * 256)})`;
+export function generateRandomColor(str: string) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+
+  let color = "#";
+  for (let i = 0; i < 3; i++) {
+    const value = (hash >> (i * 8)) & 0xff;
+    color += ("00" + value.toString(16)).substring(value.toString(16).length);
+  }
+
+  return color;
 }

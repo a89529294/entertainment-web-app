@@ -1,4 +1,4 @@
-import { TColumn } from "@/data/types";
+import { TColumn, TColumnsWithTasks } from "@/data/types";
 import { db } from "@/lib/db";
 import { unstable_cache } from "next/cache";
 
@@ -8,5 +8,19 @@ export const getColumnsForBoard = unstable_cache(
   ["columns"],
   {
     tags: ["columns"],
-  }
+  },
+);
+
+export const getColumnsAndTasksForBoard = unstable_cache(
+  async (boardId: number) =>
+    db`SELECT c.id AS column_id, c.name AS column_name, c.sequence AS column_sequence, 
+	     t.id AS task_id, t.name AS task_name, t.sequence AS task_sequence, t.description AS task_description
+       FROM boards b
+       JOIN columns c ON b.id = c.board_id
+       LEFT JOIN tasks t ON c.id = t.column_id
+       WHERE b.id = ${boardId}` as Promise<TColumnsWithTasks[]>,
+  ["columns-with-tasks"],
+  {
+    tags: ["columns-with-tasks"],
+  },
 );

@@ -9,9 +9,11 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 export function AddColumnBlock({
   boardId,
+
   columnsLength,
 }: {
   boardId: number;
+
   columnsLength: number;
 }) {
   const ref = useRef<HTMLLIElement>(null);

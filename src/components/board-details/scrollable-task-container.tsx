@@ -1,12 +1,18 @@
 "use client";
 
+import { DraggableTask } from "@/components/board-details/draggable-task";
 import { TTask } from "@/data/types";
-import { cn } from "@/lib/utils";
-import { textHeadingM } from "@/styles/custom-class-names";
+import { useDroppable } from "@dnd-kit/core";
 import { useEffect, useRef, useState } from "react";
 
-export function ScrollableTaskContainer({ tasks }: { tasks: TTask[] }) {
-  const ref = useRef<HTMLDivElement>(null);
+export function ScrollableTaskContainer({
+  columnId,
+  tasks,
+}: {
+  tasks: TTask[];
+  columnId: number;
+}) {
+  const ref = useRef<HTMLDivElement>();
   const ref2 = useRef<HTMLDivElement>(null);
   const [scrollbarVisible, setScrollbarVisible] = useState(false);
 
@@ -15,18 +21,12 @@ export function ScrollableTaskContainer({ tasks }: { tasks: TTask[] }) {
     const content = ref2.current;
     if (!container || !content) return;
 
-    const updateScrollbarVisible = () => {
-      if (ref.current)
-        setScrollbarVisible(
-          ref.current.scrollHeight > ref.current.clientHeight,
-        );
-    };
-
     const resizeObserver = new ResizeObserver((entries) => {
-      setScrollbarVisible(
-        entries[0].borderBoxSize[0].blockSize <
-          entries[1].borderBoxSize[0].blockSize,
-      );
+      if (entries.length === 2)
+        setScrollbarVisible(
+          entries[0].borderBoxSize[0].blockSize <
+            entries[1].borderBoxSize[0].blockSize,
+        );
     });
 
     resizeObserver.observe(container);
@@ -40,22 +40,19 @@ export function ScrollableTaskContainer({ tasks }: { tasks: TTask[] }) {
 
   return (
     <div
-      ref={ref}
-      className="relative overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-main-purple"
+      ref={(ele) => {
+        ref.current = ele ?? undefined;
+      }}
+      className="relative overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-track-transparent scrollbar-thumb-main-purple"
     >
       <div className="flex flex-col gap-5" ref={ref2}>
         {tasks.map((task) => {
           return (
-            <li
+            <DraggableTask
               key={task.id}
-              className={cn(
-                "w-72 rounded-lg bg-white px-4 py-6 shadow-lg",
-                textHeadingM,
-                scrollbarVisible && "w-[269px]",
-              )}
-            >
-              {task.name}
-            </li>
+              task={task}
+              scrollbarVisible={scrollbarVisible}
+            />
           );
         })}
       </div>
