@@ -5,12 +5,8 @@ import { TAggregatedColumnWithTasks } from "@/data/types";
 import { cn, generateRandomColor } from "@/lib/utils";
 import { textHeadingS } from "@/styles/custom-class-names";
 import { useDroppable } from "@dnd-kit/core";
-import { CSS } from "@dnd-kit/utilities";
 import {
-  arrayMove,
   SortableContext,
-  sortableKeyboardCoordinates,
-  useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 

@@ -44,7 +44,7 @@ export async function addNewBoard(userId: string, formData: FormData) {
   if (success) {
     // cookies().set("no-redirect-to-first-board", "");
     console.log("redirecting to", boardId);
-    redirect(`/boards/${boardId}/${formData.get("boardName") as string}`);
+    redirect(`/boards/${boardId}/${formData.get("name") as string}`);
   }
 }
 
