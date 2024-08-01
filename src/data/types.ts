@@ -1,22 +1,22 @@
 export type TBoard = {
-  id: number;
+  id: string;
   name: string;
   user_id: string;
 };
 
 export type TColumn = {
-  id: number;
-  board_id: number;
+  id: string;
+  board_id: string;
   name: string;
   sequence: number;
 };
 
 export type TColumnsWithTasks = {
-  id: number;
-  column_id: number;
+  id: string;
+  column_id: string;
   column_name: string;
   column_sequence: number;
-  task_id: number;
+  task_id: string;
   task_name: string;
   task_sequence: number;
   task_description: string;
@@ -27,15 +27,15 @@ export type TAggregatedColumnWithTasks = TColumn & {
 };
 
 export type TTask = {
-  id: number;
-  column_id: number;
+  id: string;
+  column_id: string;
   name: string;
   description: string;
   sequence: number;
 };
 
 export type TSubtask = {
-  id: number;
-  task_id: number;
+  id: string;
+  task_id: string;
   name: string;
 };

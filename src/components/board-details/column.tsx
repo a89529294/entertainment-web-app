@@ -21,7 +21,7 @@ export function Column({
   column: TAggregatedColumnWithTasks;
   boardName: string;
 }) {
-  const id = `column-${column.id}`;
+  const id = column.id;
   const { setNodeRef } = useDroppable({
     id,
   });

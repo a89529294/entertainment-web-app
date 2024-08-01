@@ -8,9 +8,7 @@ export default async function Board({
 }: {
   params: { board_id: string; board_name: string };
 }) {
-  const numericBoardId = Number.isNaN(+params.board_id) ? -1 : +params.board_id;
-
-  const columns = await getColumnsAndTasksForBoard(numericBoardId);
+  const columns = await getColumnsAndTasksForBoard(params.board_id);
 
   const uniqueColumns = {} as Record<string, TAggregatedColumnWithTasks>;
 
@@ -37,7 +35,7 @@ export default async function Board({
         id: c.column_id,
         name: c.column_name,
         sequence: c.column_sequence,
-        board_id: numericBoardId,
+        board_id: params.board_id,
         tasks: c.task_id
           ? [
               {
@@ -54,13 +52,13 @@ export default async function Board({
   });
 
   if (columns.length === 0)
-    return <AddNewBoardOrColumn type="column" boardId={numericBoardId} />;
+    return <AddNewBoardOrColumn type="column" boardId={params.board_id} />;
 
   return (
     <div className="absolute inset-0 px-4 py-6">
       <DragAndDropArea
         serverColumns={uniqueColumns}
-        boardId={+params.board_id}
+        boardId={params.board_id}
         boardName={params.board_name}
       />
     </div>

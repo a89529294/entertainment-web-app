@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 import { revalidateTag } from "next/cache";
 
 export async function addNewColumn(
-  boardId: number,
+  boardId: string,
   sequence: number,
   formData: FormData,
 ) {
@@ -35,14 +35,14 @@ export async function addNewColumn(
   `;
   }
 
-  revalidateTag("columns");
+  revalidateTag("columns-with-tasks");
 }
 
-export async function deleteColumn(columnId: number) {
+export async function deleteColumn(columnId: string) {
   try {
     await db`DELETE FROM columns WHERE id = ${columnId}`;
 
-    revalidateTag("columns");
+    revalidateTag("columns-with-tasks");
   } catch (e) {
     console.log(e);
   }

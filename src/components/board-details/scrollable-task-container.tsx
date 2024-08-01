@@ -9,8 +9,8 @@ export function ScrollableTaskContainer({
   columnId,
   tasks,
 }: {
+  columnId: string;
   tasks: TTask[];
-  columnId: number;
 }) {
   const ref = useRef<HTMLDivElement>();
   const ref2 = useRef<HTMLDivElement>(null);
@@ -45,7 +45,7 @@ export function ScrollableTaskContainer({
       }}
       className="relative overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-track-transparent scrollbar-thumb-main-purple"
     >
-      <div className="flex flex-col gap-5" ref={ref2}>
+      <div className="flex flex-col gap-5 p-2" ref={ref2}>
         {tasks.map((task) => {
           return (
             <DraggableTask

@@ -11,13 +11,20 @@ import {
   DragOverlay,
   DragStartEvent,
   UniqueIdentifier,
+  closestCorners,
+  KeyboardSensor,
+  PointerSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
 } from "@dnd-kit/core";
 import {
   arrayMove,
   SortableContext,
   verticalListSortingStrategy,
+  sortableKeyboardCoordinates,
 } from "@dnd-kit/sortable";
-import { useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
 
 export function DragAndDropArea({
   serverColumns,
@@ -25,12 +32,31 @@ export function DragAndDropArea({
   boardName,
 }: {
   serverColumns: Record<string, TAggregatedColumnWithTasks>;
-  boardId: number;
+  boardId: string;
   boardName: string;
 }) {
   const id = useId();
+  const [isMobile, setIsMobile] = useState(false);
   const [columns, setColumns] = useState(serverColumns);
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
+
+  useEffect(() => {
+    setIsMobile(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
+  }, []);
+
+  const DesktopSensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  );
+
+  const mobileSensors = useSensors(
+    useSensor(TouchSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  );
 
   function handleDragStart(event: DragStartEvent) {
     setActiveId(event.active.id);
@@ -40,29 +66,28 @@ export function DragAndDropArea({
     const { active, over } = event;
     const { id } = active;
     const overId = over?.id;
+
     if (!overId) return;
+
     // Find the containers
-    const activeContainer = findColumnId(id.toString());
-    const overContainer = findColumnId(overId.toString());
+    const activeContainerId = findColumnId(id.toString());
+    const overContainerId = findColumnId(overId.toString());
     if (
-      !activeContainer ||
-      !overContainer ||
-      activeContainer === overContainer
+      !activeContainerId ||
+      !overContainerId ||
+      activeContainerId === overContainerId
     ) {
       return;
     }
-    setColumns((prev) => {
-      if (!prev[activeContainer] || !prev[overContainer]) return prev;
 
-      const activeItems = prev[activeContainer].tasks;
-      const overItems = prev[overContainer].tasks;
+    setColumns((prev) => {
+      if (!prev[activeContainerId] || !prev[overContainerId]) return prev;
+
+      const activeItems = prev[activeContainerId].tasks;
+      const overItems = prev[overContainerId].tasks;
       // Find the indexes for the items
-      const activeIndex = activeItems.findIndex(
-        (t) => t.id === +id.toString().split("-")[1],
-      );
-      const overIndex = overItems.findIndex(
-        (t) => t.id === +overId.toString().split("-")[1],
-      );
+      const activeIndex = activeItems.findIndex((t) => t.id === id);
+      const overIndex = overItems.findIndex((t) => t.id === overId);
       let newIndex;
       if (overId in prev) {
         // We're at the root droppable of a container
@@ -78,21 +103,18 @@ export function DragAndDropArea({
 
       return {
         ...prev,
-        [activeContainer]: {
-          ...prev[activeContainer],
-          tasks: prev[activeContainer].tasks.filter(
-            (item) => item.id !== +active.id.toString().split("-")[1],
+        [activeContainerId]: {
+          ...prev[activeContainerId],
+          tasks: prev[activeContainerId].tasks.filter(
+            (item) => item.id !== active.id,
           ),
         },
-        [overContainer]: {
-          ...prev[overContainer],
+        [overContainerId]: {
+          ...prev[overContainerId],
           tasks: [
-            ...prev[overContainer].tasks.slice(0, newIndex),
-            columns[activeContainer].tasks[activeIndex],
-            ...prev[overContainer].tasks.slice(
-              newIndex,
-              prev[overContainer].tasks.length,
-            ),
+            ...prev[overContainerId].tasks.slice(0, newIndex),
+            columns[activeContainerId].tasks[activeIndex],
+            ...prev[overContainerId].tasks.slice(newIndex),
           ],
         },
       };
@@ -100,26 +122,58 @@ export function DragAndDropArea({
   }
 
   function handleDragEnd(event: DragEndEvent) {
-    console.log(event.active, event.over);
+    const { active, over } = event;
+    const { id } = active;
+    const overId = over?.id;
 
-    // console.log(findColumnId(event.active.id.toString()));
-    // console.log(findColumnId(event.over?.id.toString() ?? ""));
+    if (!overId) return;
+
+    // Find the containers
+    const activeContainerId = findColumnId(id.toString());
+    const overContainerId = findColumnId(overId.toString());
+    if (
+      !activeContainerId ||
+      !overContainerId ||
+      activeContainerId !== overContainerId
+    ) {
+      return;
+    }
+
+    setColumns((prev) => {
+      if (!prev[activeContainerId] || !prev[overContainerId]) return prev;
+
+      const activeItems = prev[activeContainerId].tasks;
+      const overItems = prev[overContainerId].tasks;
+      // Find the indexes for the items
+      const activeIndex = activeItems.findIndex((t) => t.id === id);
+      const overIndex = overItems.findIndex((t) => t.id === overId);
+
+      return {
+        ...prev,
+        [overContainerId]: {
+          ...prev[overContainerId],
+          tasks: arrayMove(prev[overContainerId].tasks, activeIndex, overIndex),
+        },
+      };
+    });
   }
 
   function findColumnId(id: string) {
-    const foundColumn = Object.values(columns).find(
-      (c) => id.split("-")[0] === "column" && c.id === +id.split("-")[1],
-    );
+    const foundColumn = Object.values(columns).find((c) => c.id === id);
 
     if (foundColumn) {
       return id;
     }
 
     const c = Object.values(columns).find((c) =>
-      c.tasks.find((t) => t.id === +id.split("-")[1]),
+      c.tasks.find((t) => t.id === id),
     );
-    return c ? `column-${c.id}` : undefined;
+    return c ? c.id : undefined;
   }
+
+  useEffect(() => {
+    setColumns(serverColumns);
+  }, [serverColumns]);
 
   return (
     <DndContext
@@ -127,6 +181,8 @@ export function DragAndDropArea({
       onDragStart={handleDragStart}
       onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
+      sensors={isMobile ? mobileSensors : DesktopSensors}
+      collisionDetection={closestCorners}
     >
       <ul className="isolate flex h-full gap-6 overflow-x-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-main-purple">
         {Object.values(columns).map((c) => {
@@ -146,7 +202,7 @@ export function DragAndDropArea({
             task={
               Object.values(columns)
                 .flatMap((c) => c.tasks)
-                .find((t) => t.id === +activeId?.toString().split("-")[1])!
+                .find((t) => t.id === activeId)!
             }
           />
         ) : null}

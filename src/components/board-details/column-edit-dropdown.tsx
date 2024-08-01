@@ -24,7 +24,7 @@ import { textbodyL, textHeadingL } from "@/styles/custom-class-names";
 import Image from "next/image";
 import { RefObject, useState } from "react";
 
-export function ColumnEditDropdown({ id }: { id: number }) {
+export function ColumnEditDropdown({ id }: { id: string }) {
   const [showDialog, setShowDialog] = useState(false);
   const onDeleteColumn = deleteColumn.bind(null, id);
 

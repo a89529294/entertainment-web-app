@@ -5,19 +5,17 @@ import { BoardTaskColumnDialog } from "@/components/common/board-task-column/boa
 import { NewBoardOrColumnForm } from "@/components/common/board-task-column/new-board-or-column-form";
 import { cn } from "@/lib/utils";
 import { textHeadingXL } from "@/styles/custom-class-names";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 export function AddColumnBlock({
   boardId,
-
   columnsLength,
 }: {
-  boardId: number;
-
+  boardId: string;
   columnsLength: number;
 }) {
   const ref = useRef<HTMLLIElement>(null);
-  const onAddNewColumn = addNewColumn.bind(null, boardId ?? -1, 0);
+  const onAddNewColumn = addNewColumn.bind(null, boardId, 0);
 
   // for preventing columns container from scrolling to the right after adding a column
   useEffect(() => {

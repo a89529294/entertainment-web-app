@@ -12,7 +12,7 @@ export const getColumnsForBoard = unstable_cache(
 );
 
 export const getColumnsAndTasksForBoard = unstable_cache(
-  async (boardId: number) =>
+  async (boardId: string) =>
     db`SELECT c.id AS column_id, c.name AS column_name, c.sequence AS column_sequence, 
 	     t.id AS task_id, t.name AS task_name, t.sequence AS task_sequence, t.description AS task_description
        FROM boards b

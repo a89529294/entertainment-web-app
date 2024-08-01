@@ -26,7 +26,7 @@ export function AddNewBoardOrColumn({
   boardId,
 }: {
   type: "column";
-  boardId: number;
+  boardId: string;
 }): ReactElement;
 export function AddNewBoardOrColumn({
   type,
@@ -41,18 +41,18 @@ export function AddNewBoardOrColumn({
   userId,
 }: {
   type: keyof typeof texts;
-  boardId?: number;
+  boardId?: string;
   userId?: string;
 }) {
   const onAddNewEntity =
     type === "column"
-      ? addNewColumn.bind(null, boardId ?? -1, 0)
+      ? addNewColumn.bind(null, boardId ?? "", 0)
       : addNewBoard.bind(null, userId ?? "");
 
   return (
-    <div className="grid place-items-center absolute inset-0">
+    <div className="absolute inset-0 grid place-items-center">
       <div className="flex flex-col items-center gap-6">
-        <p className="text-medium-grey font-bold text-lg px-10 text-center">
+        <p className="px-10 text-center text-lg font-bold text-medium-grey">
           {texts[type].description}
         </p>
 

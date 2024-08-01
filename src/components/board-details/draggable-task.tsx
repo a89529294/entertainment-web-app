@@ -13,7 +13,7 @@ export function DraggableTask({
   scrollbarVisible: boolean;
 }) {
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: `task-${task.id}` });
+    useSortable({ id: task.id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -24,7 +24,7 @@ export function DraggableTask({
     <li
       key={task.id}
       className={cn(
-        "w-72 rounded-lg bg-white px-4 py-6 shadow-lg",
+        "w-72 rounded-lg bg-white px-4 py-6 shadow-md",
         textHeadingM,
         scrollbarVisible && "w-[269px]",
       )}

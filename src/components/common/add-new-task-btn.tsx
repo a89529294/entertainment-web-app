@@ -9,7 +9,7 @@ export function AddNewTaskBtn({
   columnId,
   sequence,
 }: {
-  columnId: number;
+  columnId: string;
   sequence: number;
 }) {
   const onAddNewTask = addNewTask.bind(null, columnId, sequence);

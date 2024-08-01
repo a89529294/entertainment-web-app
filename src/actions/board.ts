@@ -6,6 +6,7 @@ import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 
 export async function addNewBoard(userId: string, formData: FormData) {
+  console.log(formData);
   let success = false;
   let boardId = "";
 
@@ -21,7 +22,7 @@ export async function addNewBoard(userId: string, formData: FormData) {
       const trimmedValue = value.toString().trim();
       if (key.startsWith("columnName") && trimmedValue) {
         columns.push({
-          board_id: +boardId,
+          board_id: boardId,
           name: trimmedValue as string,
           sequence: +key.split("-")[1],
         });

@@ -5,9 +5,9 @@ import { db } from "@/lib/db";
 import { revalidateTag } from "next/cache";
 
 export async function addNewTask(
-  columnId: number,
+  columnId: string,
   sequence: number,
-  formData: FormData
+  formData: FormData,
 ) {
   console.log(columnId, formData);
 
@@ -36,5 +36,5 @@ export async function addNewTask(
   `;
   }
 
-  revalidateTag("tasks");
+  revalidateTag("columns-with-tasks");
 }
