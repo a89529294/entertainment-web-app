@@ -1,6 +1,6 @@
 "use server";
 
-import { TSubtask } from "@/data/types";
+import { TSubtask, TTask } from "@/data/types";
 import { db } from "@/lib/db";
 import { revalidateTag } from "next/cache";
 
@@ -37,4 +37,33 @@ export async function addNewTask(
   }
 
   revalidateTag("columns-with-tasks");
+}
+
+export async function swapTaskSequence(
+  task1: { id: string; newSequence: number },
+  task2: { id: string; newSequence: number },
+) {
+  const p1 = db`UPDATE tasks SET sequence = ${task1.newSequence} WHERE id = ${task1.id}`;
+  const p2 = db`UPDATE tasks SET sequence = ${task2.newSequence} WHERE id = ${task2.id}`;
+  await Promise.all([p1, p2]);
+}
+
+export async function updateTaskSequences(
+  ...tasks: { id: string; newSequence: number; newColumnId?: string }[]
+) {
+  const promises = [] as Promise<unknown>[];
+
+  for (const task of tasks) {
+    console.log(task);
+    if (task.newColumnId)
+      promises.push(
+        db`UPDATE tasks SET sequence = ${task.newSequence}, column_id=${task.newColumnId} WHERE id = ${task.id}`,
+      );
+    else
+      promises.push(
+        db`UPDATE tasks SET sequence = ${task.newSequence} WHERE id = ${task.id}`,
+      );
+  }
+
+  await Promise.all(promises);
 }

@@ -52,7 +52,7 @@ export function Column({
             <ColumnEditDropdown id={column.id} />
           </h2>
 
-          <ScrollableTaskContainer columnId={column.id} tasks={column.tasks} />
+          <ScrollableTaskContainer tasks={column.tasks} />
 
           <li>
             <AddNewTaskBtn

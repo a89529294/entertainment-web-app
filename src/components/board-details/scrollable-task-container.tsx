@@ -5,13 +5,7 @@ import { TTask } from "@/data/types";
 import { useDroppable } from "@dnd-kit/core";
 import { useEffect, useRef, useState } from "react";
 
-export function ScrollableTaskContainer({
-  columnId,
-  tasks,
-}: {
-  columnId: string;
-  tasks: TTask[];
-}) {
+export function ScrollableTaskContainer({ tasks }: { tasks: TTask[] }) {
   const ref = useRef<HTMLDivElement>();
   const ref2 = useRef<HTMLDivElement>(null);
   const [scrollbarVisible, setScrollbarVisible] = useState(false);

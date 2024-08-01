@@ -18,7 +18,9 @@ export const getColumnsAndTasksForBoard = unstable_cache(
        FROM boards b
        JOIN columns c ON b.id = c.board_id
        LEFT JOIN tasks t ON c.id = t.column_id
-       WHERE b.id = ${boardId}` as Promise<TColumnsWithTasks[]>,
+       WHERE b.id = ${boardId}
+       ORDER BY c.sequence, t.sequence
+       ` as Promise<TColumnsWithTasks[]>,
   ["columns-with-tasks"],
   {
     tags: ["columns-with-tasks"],

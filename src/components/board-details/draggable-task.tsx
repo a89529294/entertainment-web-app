@@ -8,12 +8,20 @@ import { CSS } from "@dnd-kit/utilities";
 export function DraggableTask({
   task,
   scrollbarVisible,
+  className,
 }: {
   task: TTask;
   scrollbarVisible: boolean;
+  className?: string;
 }) {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: task.id });
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: task.id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -24,9 +32,11 @@ export function DraggableTask({
     <li
       key={task.id}
       className={cn(
-        "w-72 rounded-lg bg-white px-4 py-6 shadow-md",
+        "w-72 cursor-grab rounded-lg bg-white px-4 py-6 shadow-md",
         textHeadingM,
         scrollbarVisible && "w-[269px]",
+        isDragging && "opacity-50",
+        className,
       )}
       ref={setNodeRef}
       style={style}
