@@ -15,7 +15,7 @@ export function AddColumnBlock({
   columnsLength: number;
 }) {
   const ref = useRef<HTMLLIElement>(null);
-  const onAddNewColumn = addNewColumn.bind(null, boardId, 0);
+  const onAddNewColumn = addNewColumn.bind(null, boardId, columnsLength);
 
   // for preventing columns container from scrolling to the right after adding a column
   useEffect(() => {
