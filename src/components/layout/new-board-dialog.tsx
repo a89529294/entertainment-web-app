@@ -43,7 +43,7 @@ export function NewBoardDialog({
         !open && setValue("");
       }}
     >
-      <DialogContent className="p-6 gap-6">
+      <DialogContent className="gap-6 p-6">
         <DialogHeader>
           <DialogTitle className={cn("text-left", textHeadingL)}>
             Add New Board
@@ -53,12 +53,12 @@ export function NewBoardDialog({
           className="flex flex-col gap-6"
           action={userId ? addNewBoard.bind(null, userId) : undefined}
         >
-          <Label className="space-y-2 ">
-            <h3 className="font-bold text-xs text-medium-grey">Board Name</h3>
-            <Input className="" name="boardName" />
+          <Label className="space-y-2">
+            <h3 className="text-xs font-bold text-medium-grey">Board Name</h3>
+            <Input className="" name="name" />
           </Label>
           <div>
-            <h3 className="font-bold text-xs text-medium-grey mb-2">
+            <h3 className="mb-2 text-xs font-bold text-medium-grey">
               Board Columns
             </h3>
             <fieldset
@@ -78,11 +78,11 @@ export function NewBoardDialog({
                                   id: c.id,
                                   name: e.target.value.trim(),
                                 }
-                              : c
+                              : c,
                           );
                         })
                       }
-                      name={`columnName-${idx}`}
+                      name={`column-${idx}`}
                     />
                     <button>
                       <Image
@@ -90,7 +90,7 @@ export function NewBoardDialog({
                         src={grayX}
                         onClick={() =>
                           setColumns((columns) =>
-                            columns.filter((c) => c.id !== column.id)
+                            columns.filter((c) => c.id !== column.id),
                           )
                         }
                       />

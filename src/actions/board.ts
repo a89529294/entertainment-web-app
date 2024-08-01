@@ -13,14 +13,14 @@ export async function addNewBoard(userId: string, formData: FormData) {
   try {
     const boards =
       await db`INSERT INTO boards (user_id, name) VALUES (${userId}, ${
-        formData.get("boardName") as string
+        formData.get("name") as string
       }) RETURNING id`;
     boardId = boards[0].id;
 
     const columns = [] as Omit<TColumn, "id">[];
     Array.from(formData.entries()).forEach(([key, value]) => {
       const trimmedValue = value.toString().trim();
-      if (key.startsWith("columnName") && trimmedValue) {
+      if (key.startsWith("column") && trimmedValue) {
         columns.push({
           board_id: boardId,
           name: trimmedValue as string,
