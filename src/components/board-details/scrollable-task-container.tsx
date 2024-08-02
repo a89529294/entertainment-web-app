@@ -2,7 +2,6 @@
 
 import { DraggableTask } from "@/components/board-details/draggable-task";
 import { TTask } from "@/data/types";
-import { useDroppable } from "@dnd-kit/core";
 import { useEffect, useRef, useState } from "react";
 
 export function ScrollableTaskContainer({ tasks }: { tasks: TTask[] }) {

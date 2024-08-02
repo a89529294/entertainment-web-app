@@ -8,21 +8,23 @@ import {
 import Image from "next/image";
 import { ReactNode } from "react";
 
-export async function TripleDotsWithMenu({
+export function TripleDotsWithMenu({
   children,
   triggerClassName,
   menuClassName,
+  align = "end",
 }: {
   children: ReactNode;
   triggerClassName?: string;
   menuClassName?: string;
+  align?: "center" | "end" | "start";
 }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className={triggerClassName}>
         <Image alt="menu trigger" src={tripleDots} />
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className={menuClassName}>
+      <DropdownMenuContent align={align} className={menuClassName}>
         {children}
       </DropdownMenuContent>
     </DropdownMenu>

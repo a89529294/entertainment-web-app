@@ -1,10 +1,19 @@
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { textbodyL } from "@/styles/custom-class-names";
-import { ComponentProps } from "react";
+import { ComponentProps, forwardRef } from "react";
 
-export function DialogFormInput(props: ComponentProps<"input">) {
+export const DialogFormInput = forwardRef<
+  HTMLInputElement,
+  ComponentProps<"input">
+>((props, ref) => {
   return (
-    <Input className={cn(textbodyL, "placeholder:text-black/25")} {...props} />
+    <Input
+      ref={ref}
+      className={cn(textbodyL, "placeholder:text-black/25")}
+      {...props}
+    />
   );
-}
+});
+
+DialogFormInput.displayName = "DialogFormInput";

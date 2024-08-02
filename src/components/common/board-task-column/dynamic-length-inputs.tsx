@@ -3,7 +3,7 @@
 import { DialogFormInput } from "@/components/common/board-task-column/dialog-form-input";
 import { DialogFormLabel } from "@/components/common/board-task-column/dialog-form-label";
 import { MyButton } from "@/components/common/my-button";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import grayX from "@/assets/gray-x.svg";
 import Image from "next/image";
 
@@ -17,27 +17,38 @@ export function DynamicLengthInputs({
   max?: number;
 }) {
   const [inputs, setInputs] = useState([
-    { id: crypto.randomUUID(), value: "" },
+    { id: crypto.randomUUID(), value: "", focus: false },
   ]);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   function addNewInput() {
-    setInputs([...inputs, { id: crypto.randomUUID(), value: "" }]);
+    setInputs([...inputs, { id: crypto.randomUUID(), value: "", focus: true }]);
   }
 
   function removeInput(id: string) {
-    setInputs(inputs.filter((input) => input.id !== id));
+    setInputs((inputs) => {
+      const newInputs = inputs.filter((input) => input.id !== id);
+      if (newInputs.length === 1) newInputs[0].focus = true;
+      return newInputs;
+    });
   }
+
+  useEffect(() => {
+    inputs.at(-1)?.focus && inputRef.current?.focus();
+  }, [inputs]);
 
   return (
     <fieldset className="flex flex-col gap-3">
       <DialogFormLabel label={label} />
       {inputs.map((input, i) => (
         <div key={input.id} className="flex items-center gap-4">
-          <DialogFormInput name={`${nameSuffix}-${i}`} />
+          <DialogFormInput
+            name={`${nameSuffix}-${i}`}
+            ref={i === inputs.length - 1 ? inputRef : undefined}
+          />
           <button
             type="button"
             onClick={(e) => {
-              console.log(e.target);
               removeInput(input.id);
             }}
           >

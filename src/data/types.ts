@@ -38,4 +38,6 @@ export type TSubtask = {
   id: string;
   task_id: string;
   name: string;
+  sequence: number;
+  completed: boolean;
 };

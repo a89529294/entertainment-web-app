@@ -20,19 +20,23 @@ export async function addNewTask(
 
   const subtasks = [] as Omit<TSubtask, "id">[];
 
+  let count = 0;
   Array.from(formData.entries()).forEach(([key, value]) => {
     const trimmedValue = value.toString().trim();
     if (key.startsWith("subtask") && trimmedValue) {
       subtasks.push({
         name: trimmedValue,
         task_id: taskId,
+        sequence: count,
+        completed: false,
       });
+      count++;
     }
   });
 
   if (subtasks.length) {
     await db`
-    INSERT INTO subtasks ${db(subtasks, "task_id", "name")} 
+    INSERT INTO subtasks ${db(subtasks, "task_id", "name", "sequence")} 
   `;
   }
 

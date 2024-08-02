@@ -1,7 +1,7 @@
+import { TaskDetailsDialog } from "@/components/board-details/task-details-dialog";
 import { TTask } from "@/data/types";
 import { cn } from "@/lib/utils";
 import { textHeadingM } from "@/styles/custom-class-names";
-import { useDraggable } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
@@ -29,21 +29,26 @@ export function DraggableTask({
   };
 
   return (
-    <li
-      key={task.id}
-      className={cn(
-        "w-72 cursor-grab rounded-lg bg-white px-4 py-6 shadow-md",
-        textHeadingM,
-        scrollbarVisible && "w-[269px]",
-        isDragging && "opacity-50",
-        className,
-      )}
-      ref={setNodeRef}
-      style={style}
-      {...listeners}
-      {...attributes}
-    >
-      {task.name}
-    </li>
+    <TaskDetailsDialog
+      task={task}
+      trigger={
+        <li
+          key={task.id}
+          className={cn(
+            "w-72 cursor-grab touch-none list-none rounded-lg bg-white px-4 py-6 text-left shadow-md",
+            textHeadingM,
+            scrollbarVisible && "w-[269px]",
+            isDragging && "opacity-50",
+            className,
+          )}
+          ref={setNodeRef}
+          style={style}
+          {...listeners}
+          {...attributes}
+        >
+          {task.name}
+        </li>
+      }
+    />
   );
 }

@@ -19,6 +19,17 @@ export function NewTaskForm({
           placeholder="e.g. Take a coffe break"
           required
           pattern=".*\S.*"
+          onInvalid={(e) =>
+            e.currentTarget.classList.add("invalid:focus-visible:border-red")
+          }
+          onChange={(e) => {
+            e.currentTarget.checkValidity();
+            if (e.currentTarget.value)
+              e.currentTarget.classList.remove(
+                "invalid:focus-visible:border-red",
+              );
+          }}
+          autoFocus
         />
       </DialogFormLabel>
 
