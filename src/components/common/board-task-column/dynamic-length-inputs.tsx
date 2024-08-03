@@ -11,14 +11,18 @@ export function DynamicLengthInputs({
   label,
   nameSuffix,
   max = 3,
+  list,
 }: {
   label: string;
   nameSuffix: string;
   max?: number;
+  list?: { id: string; value: string }[];
 }) {
-  const [inputs, setInputs] = useState([
-    { id: crypto.randomUUID(), value: "", focus: false },
-  ]);
+  const [inputs, setInputs] = useState(
+    list
+      ? list.map((v) => ({ ...v, focus: false }))
+      : [{ id: crypto.randomUUID(), value: "", focus: false }],
+  );
   const inputRef = useRef<HTMLInputElement>(null);
 
   function addNewInput() {
@@ -40,22 +44,28 @@ export function DynamicLengthInputs({
   return (
     <fieldset className="flex flex-col gap-3">
       <DialogFormLabel label={label} />
-      {inputs.map((input, i) => (
-        <div key={input.id} className="flex items-center gap-4">
-          <DialogFormInput
-            name={`${nameSuffix}-${i}`}
-            ref={i === inputs.length - 1 ? inputRef : undefined}
-          />
-          <button
-            type="button"
-            onClick={(e) => {
-              removeInput(input.id);
-            }}
-          >
-            <Image alt="x" src={grayX} />
-          </button>
-        </div>
-      ))}
+      <div className="flex max-h-24 flex-col gap-3 overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-main-purple">
+        {inputs.map((input, i) => {
+          return (
+            <div key={input.id} className="flex items-center gap-4">
+              <DialogFormInput
+                name={`${nameSuffix}-${i}`}
+                ref={i === inputs.length - 1 ? inputRef : undefined}
+                defaultValue={input.value}
+              />
+              <button
+                type="button"
+                onClick={(e) => {
+                  removeInput(input.id);
+                }}
+                className={inputs.length > 2 ? "mr-2" : ""}
+              >
+                <Image alt="x" src={grayX} />
+              </button>
+            </div>
+          );
+        })}
+      </div>
       <MyButton
         disabled={inputs.length === max}
         size="short"

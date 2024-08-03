@@ -10,8 +10,6 @@ export async function addNewTask(
   sequence: number,
   formData: FormData,
 ) {
-  console.log(columnId, formData);
-
   const name = formData.get("name")!.toString().trim();
   const description = formData.get("description")?.toString().trim() ?? "";
 

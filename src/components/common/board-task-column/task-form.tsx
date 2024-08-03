@@ -3,16 +3,22 @@ import { DialogFormLabel } from "@/components/common/board-task-column/dialog-fo
 import { DialogFormTextArea } from "@/components/common/board-task-column/dialog-form-textarea";
 import { DynamicLengthInputs } from "@/components/common/board-task-column/dynamic-length-inputs";
 import { SubmitBtn } from "@/components/common/board-task-column/submit-btn";
+import { MyButton } from "@/components/common/my-button";
+import { TSubtask, TTask } from "@/data/types";
 
-export function NewTaskForm({
-  onAddNewTask,
+export function TaskForm({
+  onSave,
   closeDialog,
+  task,
+  subtasks,
 }: {
-  onAddNewTask: (formData: FormData) => Promise<void>;
+  onSave: (formData: FormData) => Promise<void>;
   closeDialog: () => void;
+  task?: TTask;
+  subtasks?: TSubtask[];
 }) {
   return (
-    <form action={onAddNewTask} className="mt-6 flex flex-col gap-6">
+    <form action={onSave} className="mt-6 flex flex-col gap-6">
       <DialogFormLabel label="Title">
         <DialogFormInput
           name="name"
@@ -30,6 +36,7 @@ export function NewTaskForm({
               );
           }}
           autoFocus
+          defaultValue={task?.name}
         />
       </DialogFormLabel>
 
@@ -39,12 +46,23 @@ export function NewTaskForm({
           placeholder="e.g. It’s always good to take a break. This 
 15 minute break will  recharge the batteries 
 a little."
+          defaultValue={task?.description}
         />
       </DialogFormLabel>
 
-      <DynamicLengthInputs label="Subtasks" nameSuffix="subtask" />
+      <DynamicLengthInputs
+        list={subtasks?.map((v) => ({ id: v.id, value: v.name }))}
+        label="Subtasks"
+        nameSuffix="subtask"
+      />
 
-      <SubmitBtn closeDialog={closeDialog} type="task" />
+      <MyButton size="short" variant="destructive" onClick={closeDialog}>
+        Return To View
+      </MyButton>
+
+      <SubmitBtn closeDialog={closeDialog}>
+        {task ? "Save Changes" : "Create New Task"}
+      </SubmitBtn>
     </form>
   );
 }

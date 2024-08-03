@@ -28,7 +28,9 @@ export function NewBoardOrColumnForm({
         nameSuffix={type === "board" ? "column" : "task"}
       />
 
-      <SubmitBtn closeDialog={closeDialog} type={type} />
+      <SubmitBtn closeDialog={closeDialog}>
+        {type === "board" ? "Create New Board" : "Create New Column"}
+      </SubmitBtn>
     </form>
   );
 }

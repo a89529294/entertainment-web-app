@@ -1,4 +1,5 @@
 import { deleteTask } from "@/actions/task";
+import { TaskForm } from "@/components/common/board-task-column/task-form";
 import { DeleteDialogSubmitBtn } from "@/components/common/delete-dialog-submit-btn";
 import { MyButton } from "@/components/common/my-button";
 import { TripleDotsWithMenu } from "@/components/common/triple-dots-with-menu";
@@ -35,13 +36,16 @@ export function TaskDetailsDialog({
   task: TTask;
 }) {
   const [subtasks, setSubtasks] = useState<TSubtask[]>([]);
+
   const [open, setOpen] = useState(false);
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [showNextDialog, setShowNextDialog] = useState<
+    "delete" | "edit" | undefined
+  >(undefined);
   const onDeleteTask = deleteTask.bind(null, task.id);
 
   useEffect(() => {
     (async () => {
-      if (!showDeleteDialog) {
+      if (open) {
         const subtasks = (await fetch(`/api/${task.id}/subtasks`).then((v) =>
           v.json(),
         )) as { subtasks: TSubtask[] };
@@ -49,27 +53,27 @@ export function TaskDetailsDialog({
         setSubtasks(subtasks.subtasks);
       }
     })();
-  }, [task.id, showDeleteDialog]);
+  }, [task.id, open]);
 
   return (
     <Dialog
       open={open}
       onOpenChange={(v) => {
         setOpen(v);
-        if (!v) setShowDeleteDialog(false);
+        if (!v) setShowNextDialog(undefined);
       }}
     >
       <DialogTrigger asChild>{trigger}</DialogTrigger>
 
       <DialogContent
         onInteractOutside={(e) => {
-          if (showDeleteDialog) {
+          if (showNextDialog) {
             e.preventDefault();
-            setShowDeleteDialog(false);
+            setShowNextDialog(undefined);
           }
         }}
       >
-        {showDeleteDialog ? (
+        {showNextDialog === "delete" ? (
           <div className="flex flex-col gap-6">
             <DialogHeader className="flex flex-col gap-6">
               <DialogTitle className={cn("text-left text-red", textHeadingL)}>
@@ -86,14 +90,14 @@ export function TaskDetailsDialog({
               <form action={onDeleteTask}>
                 <DeleteDialogSubmitBtn
                   closeDialog={() => {
-                    setShowDeleteDialog(false);
+                    setShowNextDialog(undefined);
                     setOpen(false);
                   }}
                 />
               </form>
 
               <MyButton
-                onClick={() => setShowDeleteDialog(false)}
+                onClick={() => setShowNextDialog(undefined)}
                 type="button"
                 size="short"
                 variant="secondary"
@@ -102,6 +106,19 @@ export function TaskDetailsDialog({
               </MyButton>
             </div>
           </div>
+        ) : showNextDialog === "edit" ? (
+          <>
+            <DialogHeader>
+              <DialogTitle>Edit Task</DialogTitle>
+              <DialogDescription></DialogDescription>
+            </DialogHeader>
+            <TaskForm
+              task={task}
+              subtasks={subtasks}
+              onSave={(() => {}) as any}
+              closeDialog={() => setShowNextDialog(undefined)}
+            />
+          </>
         ) : (
           <>
             <DialogHeader>
@@ -111,13 +128,14 @@ export function TaskDetailsDialog({
                 <TripleDotsWithMenu align="center">
                   <div className="flex flex-col gap-4 p-4">
                     <button
+                      onClick={() => setShowNextDialog("edit")}
                       className={cn("text-left text-medium-grey", textbodyL)}
                     >
                       Edit Task
                     </button>
 
                     <button
-                      onClick={() => setShowDeleteDialog(true)}
+                      onClick={() => setShowNextDialog("delete")}
                       className={cn("text-left text-red", textbodyL)}
                     >
                       Delete Task

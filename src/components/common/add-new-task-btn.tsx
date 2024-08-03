@@ -2,7 +2,7 @@
 
 import { addNewTask } from "@/actions/task";
 import { BoardTaskColumnDialog } from "@/components/common/board-task-column/board-task-column-dialog";
-import { NewTaskForm } from "@/components/common/board-task-column/new-task-form";
+import { TaskForm } from "@/components/common/board-task-column/task-form";
 import { MyButton } from "@/components/common/my-button";
 
 export function AddNewTaskBtn({
@@ -24,10 +24,7 @@ export function AddNewTaskBtn({
     >
       {(setClose) => {
         return (
-          <NewTaskForm
-            closeDialog={() => setClose()}
-            onAddNewTask={onAddNewTask}
-          />
+          <TaskForm closeDialog={() => setClose()} onSave={onAddNewTask} />
         );
       }}
     </BoardTaskColumnDialog>

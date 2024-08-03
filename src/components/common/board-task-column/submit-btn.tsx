@@ -2,13 +2,14 @@
 
 import { MyButton } from "@/components/common/my-button";
 import { useCloseDialogAfterSubmission } from "@/hooks/use-close-dialog-after-submission";
+import { ReactNode } from "react";
 
 export function SubmitBtn({
   closeDialog,
-  type,
+  children,
 }: {
   closeDialog: () => void;
-  type: "task" | "board" | "column";
+  children: ReactNode;
 }) {
   const pending = useCloseDialogAfterSubmission(closeDialog);
 
@@ -19,8 +20,7 @@ export function SubmitBtn({
       size={"short"}
       type="submit"
     >
-      Create New{" "}
-      {type === "board" ? "Board" : type === "column" ? "Column" : "Task"}
+      {children}
     </MyButton>
   );
 }

@@ -9,7 +9,6 @@ export async function addNewColumn(
   sequence: number,
   formData: FormData,
 ) {
-  console.log(boardId, formData);
   const name = (formData.get("name") as string).trim();
 
   const columns =
