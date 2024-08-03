@@ -38,17 +38,19 @@ export function ScrollableTaskContainer({ tasks }: { tasks: TTask[] }) {
       }}
       className="relative overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-track-transparent scrollbar-thumb-main-purple"
     >
-      <div className="flex flex-col gap-5 p-2" ref={ref2}>
-        {tasks.map((task) => {
-          return (
-            <DraggableTask
-              key={task.id}
-              task={task}
-              scrollbarVisible={scrollbarVisible}
-            />
-          );
-        })}
-      </div>
+      {!!tasks.length && (
+        <div className="flex flex-col gap-5 p-2" ref={ref2}>
+          {tasks.map((task) => {
+            return (
+              <DraggableTask
+                key={task.id}
+                task={task}
+                scrollbarVisible={scrollbarVisible}
+              />
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

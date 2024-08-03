@@ -1,4 +1,4 @@
-import { TaskDetailsDialog } from "@/components/board-details/task-details-dialog";
+import { TaskDetailsDialog } from "@/components/task-details/task-details-dialog";
 import { TTask } from "@/data/types";
 import { cn } from "@/lib/utils";
 import { textHeadingM } from "@/styles/custom-class-names";

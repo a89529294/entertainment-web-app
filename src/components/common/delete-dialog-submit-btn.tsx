@@ -1,8 +1,7 @@
 import { MyButton } from "@/components/common/my-button";
 import { useCloseDialogAfterSubmission } from "@/hooks/use-close-dialog-after-submission";
-import { useFormStatus } from "react-dom";
 
-export function ColumnEditDropdownSubmitBtn({
+export function DeleteDialogSubmitBtn({
   closeDialog,
 }: {
   closeDialog: () => void;

@@ -2,6 +2,7 @@
 
 import { TSubtask, TTask } from "@/data/types";
 import { db } from "@/lib/db";
+// import { redirectIfInvalidSession } from "@/lib/utils";
 import { revalidateTag } from "next/cache";
 
 export async function addNewTask(
@@ -70,4 +71,10 @@ export async function updateTaskSequences(
   }
 
   await Promise.all(promises);
+}
+
+export async function deleteTask(taskId: string) {
+  await db`DELETE FROM tasks WHERE id = ${taskId}`;
+
+  revalidateTag("columns-with-tasks");
 }

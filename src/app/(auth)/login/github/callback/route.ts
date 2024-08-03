@@ -39,7 +39,7 @@ export async function GET(request: Request): Promise<Response> {
       cookies().set(
         sessionCookie.name,
         sessionCookie.value,
-        sessionCookie.attributes
+        sessionCookie.attributes,
       );
       cookies().set("userId", existingUser.id, {
         maxAge: sessionCookie.attributes.maxAge,
@@ -54,7 +54,6 @@ export async function GET(request: Request): Promise<Response> {
 
     const userId = generateIdFromEntropySize(10); // 16 characters long
 
-    // Replace this with your own DB client.
     await db`INSERT INTO "user" (id, github_id, username) VALUES (${userId}, ${githubUser.id}, ${githubUser.login})`;
 
     const session = await lucia.createSession(userId, {});
@@ -62,7 +61,7 @@ export async function GET(request: Request): Promise<Response> {
     cookies().set(
       sessionCookie.name,
       sessionCookie.value,
-      sessionCookie.attributes
+      sessionCookie.attributes,
     );
     cookies().set("userId", userId, {
       maxAge: sessionCookie.attributes.maxAge,

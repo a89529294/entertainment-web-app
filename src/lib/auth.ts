@@ -40,6 +40,7 @@ export const validateRequest = cache(
   > => {
     const sessionId = cookies().get(lucia.sessionCookieName)?.value ?? null;
     if (!sessionId) {
+      cookies().set("userId", "", { maxAge: 0 });
       return {
         user: null,
         session: null,
@@ -55,7 +56,7 @@ export const validateRequest = cache(
         cookies().set(
           sessionCookie.name,
           sessionCookie.value,
-          sessionCookie.attributes
+          sessionCookie.attributes,
         );
       }
       if (!result.session) {
@@ -63,23 +64,24 @@ export const validateRequest = cache(
         cookies().set(
           sessionCookie.name,
           sessionCookie.value,
-          sessionCookie.attributes
+          sessionCookie.attributes,
         );
+        cookies().set("userId", "", { maxAge: 0 });
       }
     } catch {}
     return result;
-  }
+  },
 );
 
 export const github = new GitHub(
   process.env.GITHUB_CLIENT_ID!,
-  process.env.GITHUB_CLIENT_SECRET!
+  process.env.GITHUB_CLIENT_SECRET!,
 );
 
 export const google = new Google(
   process.env.GOOGLE_CLIENT_ID!,
   process.env.GOOGLE_CLIENT_SECRET!,
-  "http://localhost:3000/login/google/callback"
+  "http://localhost:3000/login/google/callback",
 );
 
 // IMPORTANT!

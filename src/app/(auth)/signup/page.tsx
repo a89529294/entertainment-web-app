@@ -61,7 +61,10 @@ async function signup(_: any, formData: FormData): Promise<ActionResult> {
   cookies().set(
     sessionCookie.name,
     sessionCookie.value,
-    sessionCookie.attributes
+    sessionCookie.attributes,
   );
+  cookies().set("userId", userId, {
+    maxAge: sessionCookie.attributes.maxAge,
+  });
   return redirect("/");
 }

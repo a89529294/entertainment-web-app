@@ -15,11 +15,10 @@ export async function logout(): Promise<ActionResult> {
   }
   await lucia.invalidateSession(session.id);
   const sessionCookie = lucia.createBlankSessionCookie();
-  console.log(sessionCookie);
   cookies().set(
     sessionCookie.name,
     sessionCookie.value,
-    sessionCookie.attributes
+    sessionCookie.attributes,
   );
   cookies().set("userId", "", { maxAge: 0 });
 

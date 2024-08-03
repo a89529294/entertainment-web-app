@@ -41,3 +41,5 @@ export type TSubtask = {
   sequence: number;
   completed: boolean;
 };
+
+export type Entity = "board" | "column" | "task";

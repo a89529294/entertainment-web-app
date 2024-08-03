@@ -1,6 +1,8 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { cache } from "react";
+import { validateRequest } from "@/lib/auth";
+import { redirect } from "next/navigation";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -34,3 +36,11 @@ export function generateRandomColor(str: string) {
 
   return color;
 }
+
+// export async function redirectIfInvalidSession() {
+//   const auth = await validateRequest();
+
+//   if (!auth.user) return redirect("/");
+
+//   return auth;
+// }
