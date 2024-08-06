@@ -2,9 +2,11 @@ import { DialogFormInput } from "@/components/common/board-task-column/dialog-fo
 import { DialogFormLabel } from "@/components/common/board-task-column/dialog-form-label";
 import { DialogFormTextArea } from "@/components/common/board-task-column/dialog-form-textarea";
 import { DynamicLengthInputs } from "@/components/common/board-task-column/dynamic-length-inputs";
+import { StatusSelect } from "@/components/common/board-task-column/stauts-select";
 import { SubmitBtn } from "@/components/common/board-task-column/submit-btn";
 import { MyButton } from "@/components/common/my-button";
 import { TSubtask, TTask } from "@/data/types";
+import { cn } from "@/lib/utils";
 
 export function TaskForm({
   onSave,
@@ -18,7 +20,10 @@ export function TaskForm({
   subtasks?: TSubtask[];
 }) {
   return (
-    <form action={onSave} className="mt-6 flex flex-col gap-6">
+    <form
+      action={onSave}
+      className={cn("mt-6 flex flex-col gap-6", task && "gap-4")}
+    >
       <DialogFormLabel label="Title">
         <DialogFormInput
           name="name"
@@ -56,9 +61,13 @@ a little."
         nameSuffix="subtask"
       />
 
-      <MyButton size="short" variant="destructive" onClick={closeDialog}>
-        Return To View
-      </MyButton>
+      <StatusSelect />
+
+      {task && (
+        <MyButton size="short" variant="destructive" onClick={closeDialog}>
+          Return To View
+        </MyButton>
+      )}
 
       <SubmitBtn closeDialog={closeDialog}>
         {task ? "Save Changes" : "Create New Task"}

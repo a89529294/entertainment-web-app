@@ -44,7 +44,7 @@ export function DynamicLengthInputs({
   return (
     <fieldset className="flex flex-col gap-3">
       <DialogFormLabel label={label} />
-      <div className="flex max-h-24 flex-col gap-3 overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-main-purple">
+      <div className="flex max-h-10 flex-col gap-3 overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-main-purple">
         {inputs.map((input, i) => {
           return (
             <div key={input.id} className="flex items-center gap-4">

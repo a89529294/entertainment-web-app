@@ -43,3 +43,5 @@ export type TSubtask = {
 };
 
 export type Entity = "board" | "column" | "task";
+
+export type DialogState = "delete" | "edit" | "view";

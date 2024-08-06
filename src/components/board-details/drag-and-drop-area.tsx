@@ -57,7 +57,6 @@ export function DragAndDropArea({
   );
 
   useEffect(() => {
-    // startTransition();
     setColumns(serverColumns);
   }, [serverColumns]);
 
