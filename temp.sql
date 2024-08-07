@@ -1,3 +1,5 @@
+CREATE TYPE task_status AS ENUM ('todo', 'doing', 'done');
+
 CREATE TABLE boards (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -20,6 +22,7 @@ CREATE TABLE tasks (
     description TEXT,
     column_id INTEGER NOT NULL REFERENCES columns(id),
     subtasks JSON
+    status TASK_STATUS DEFAULT 'todo'
     -- other fields
 );
 

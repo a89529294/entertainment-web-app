@@ -7,9 +7,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <main className={cn("min-h-full bg-light-grey flex flex-col")}>
+    <main className={cn("flex min-h-full flex-col bg-light-grey")}>
       <Header />
-      <div className="flex-1 dark:bg-very-dark-grey relative">{children}</div>
+      <div className="relative flex-1 dark:bg-very-dark-grey">{children}</div>
     </main>
   );
 }

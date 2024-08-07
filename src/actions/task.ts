@@ -57,7 +57,6 @@ export async function updateTaskSequences(
   const promises = [] as Promise<unknown>[];
 
   for (const task of tasks) {
-    console.log(task);
     if (task.newColumnId)
       promises.push(
         db`UPDATE tasks SET sequence = ${task.newSequence}, column_id=${task.newColumnId} WHERE id = ${task.id}`,

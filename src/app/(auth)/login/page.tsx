@@ -49,6 +49,7 @@ async function login(_: any, formData: FormData): Promise<ActionResult> {
     outputLen: 32,
     parallelism: 1,
   });
+
   if (!validPassword) {
     // NOTE:
     // Returning immediately allows malicious actors to figure out valid usernames from response times,

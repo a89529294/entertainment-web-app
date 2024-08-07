@@ -1,6 +1,6 @@
 "use server";
 
-import { TColumn, TTask } from "@/data/types";
+import { NewTask, TColumn, TTask } from "@/data/types";
 import { db } from "@/lib/db";
 import { revalidateTag } from "next/cache";
 
@@ -16,7 +16,7 @@ export async function addNewColumn(
 
   const columnId = columns[0].id;
 
-  const tasks = [] as Omit<TTask, "id" | "description">[];
+  const tasks = [] as NewTask[];
 
   Array.from(formData.entries()).forEach(([key, value], idx) => {
     const trimmedValue = value.toString().trim();

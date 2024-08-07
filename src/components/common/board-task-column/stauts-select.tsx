@@ -5,28 +5,53 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { TaskStatus } from "@/data/types";
 import { cn } from "@/lib/utils";
 import { textHeadingS } from "@/styles/custom-class-names";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
-export function StatusSelect() {
+export function StatusSelect({
+  taskId,
+  serverStatus,
+}: {
+  taskId?: string;
+  serverStatus?: TaskStatus;
+}) {
+  const router = useRouter();
+  const [status, setStatus] = useState<TaskStatus>(serverStatus ?? "todo");
+
+  useEffect(() => {
+    if (serverStatus) setStatus(serverStatus);
+  }, [serverStatus]);
+
   return (
     <div>
       <h2 className={cn(textHeadingS, "mb-2 tracking-normal text-medium-grey")}>
         Current Status
       </h2>
 
-      <Select>
+      <Select
+        value={status}
+        onValueChange={(newStatus) => {
+          setStatus(newStatus as TaskStatus);
+          if (taskId)
+            fetch(`/api/task-status/${taskId}/${newStatus}`, {
+              method: "POST",
+            }).then(() => router.refresh());
+        }}
+      >
         <SelectTrigger className="w-full">
-          <SelectValue placeholder="Todo" />
+          <span className="capitalize">{status}</span>
         </SelectTrigger>
         <SelectContent>
-          <SelectItem className="pl-3" value="Todo">
+          <SelectItem className="pl-3" value="todo">
             Todo
           </SelectItem>
-          <SelectItem className="pl-3" value="Doing">
+          <SelectItem className="pl-3" value="doing">
             Doing
           </SelectItem>
-          <SelectItem className="pl-3" value="Done">
+          <SelectItem className="pl-3" value="done">
             Done
           </SelectItem>
         </SelectContent>

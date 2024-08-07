@@ -40,7 +40,6 @@ export const validateRequest = cache(
   > => {
     const sessionId = cookies().get(lucia.sessionCookieName)?.value ?? null;
     if (!sessionId) {
-      cookies().set("userId", "", { maxAge: 0 });
       return {
         user: null,
         session: null,

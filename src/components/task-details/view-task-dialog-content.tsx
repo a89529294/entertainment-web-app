@@ -6,6 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Skeleton } from "@/components/ui/skeleton";
 import { DialogState, TSubtask, TTask } from "@/data/types";
 import { cn } from "@/lib/utils";
 import {
@@ -21,7 +22,7 @@ export function ViewTaskDialogContent({
   setShowNextDialog,
 }: {
   task: TTask;
-  subtasks: TSubtask[];
+  subtasks: TSubtask[] | undefined;
   setShowNextDialog: (arg: DialogState) => void;
 }) {
   const [localSubtasks, setLocalSubtasks] = useState(subtasks);
@@ -62,50 +63,70 @@ export function ViewTaskDialogContent({
           <h2
             className={cn(
               textHeadingS,
-              "mb-4 tracking-normal text-medium-grey",
+              "mb-4 flex items-center gap-0.5 tracking-normal text-medium-grey",
             )}
           >
-            Subtasks (
-            {localSubtasks.reduce(
-              (acc, val) => acc + (val.completed ? 1 : 0),
-              0,
-            )}{" "}
-            of {localSubtasks.length})
+            Subtasks
+            {localSubtasks ? (
+              <>
+                <span>
+                  {localSubtasks.reduce(
+                    (acc, val) => acc + (val.completed ? 1 : 0),
+                    0,
+                  )}
+                </span>
+                <span className="mx-0.5">of</span>
+                <span>{localSubtasks.length}</span>
+              </>
+            ) : (
+              <Skeleton className="h-4 w-10" />
+            )}
           </h2>
           <ul className={cn("flex flex-col gap-2 text-black", textBodyM)}>
-            {localSubtasks.map((subtask) => {
-              return (
-                <li
-                  key={subtask.id}
-                  className="flex items-center gap-4 rounded-sm bg-light-grey px-3 py-4"
-                >
-                  <input
-                    type="checkbox"
-                    className="peer accent-main-purple"
-                    onChange={(e) => {
-                      const completed = e.currentTarget.checked;
-                      fetch(`/api/subtask/${subtask.id}/${completed}`, {
-                        method: "POST",
-                      });
-
-                      setLocalSubtasks((subtasks) => {
-                        return subtasks.map((st) =>
-                          st.id === subtask.id ? { ...st, completed } : st,
+            {localSubtasks ? (
+              localSubtasks.map((subtask) => {
+                return (
+                  <li
+                    key={subtask.id}
+                    className="flex items-center gap-4 rounded-sm bg-light-grey px-3 py-4"
+                  >
+                    <input
+                      type="checkbox"
+                      className="peer accent-main-purple"
+                      onChange={(e) => {
+                        const completed = e.currentTarget.checked;
+                        fetch(
+                          `/api/subtask-completed/${subtask.id}/${completed}`,
+                          {
+                            method: "POST",
+                          },
                         );
-                      });
-                    }}
-                    checked={subtask.completed}
-                  />
-                  <p className="peer-checked:text-black/50 peer-checked:line-through">
-                    {subtask.name}
-                  </p>
-                </li>
-              );
-            })}
+
+                        setLocalSubtasks((subtasks) => {
+                          return subtasks
+                            ? subtasks.map((st) =>
+                                st.id === subtask.id
+                                  ? { ...st, completed }
+                                  : st,
+                              )
+                            : undefined;
+                        });
+                      }}
+                      checked={subtask.completed}
+                    />
+                    <p className="peer-checked:text-black/50 peer-checked:line-through">
+                      {subtask.name}
+                    </p>
+                  </li>
+                );
+              })
+            ) : (
+              <Skeleton className="h-12" />
+            )}
           </ul>
         </div>
 
-        <StatusSelect />
+        <StatusSelect taskId={task.id} serverStatus={task.status} />
       </div>
     </>
   );

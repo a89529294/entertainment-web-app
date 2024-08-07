@@ -26,6 +26,7 @@ export default async function Board({
                 column_id: c.column_id,
                 description: c.task_description,
                 sequence: c.task_sequence,
+                status: c.task_status,
               },
             ]
           : [...uniqueColumns[c.column_id].tasks],
@@ -44,6 +45,7 @@ export default async function Board({
                 sequence: c.task_sequence,
                 column_id: c.column_id,
                 description: c.task_description,
+                status: c.task_status,
               },
             ]
           : [],

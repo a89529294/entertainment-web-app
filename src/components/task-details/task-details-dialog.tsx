@@ -20,7 +20,7 @@ export function TaskDetailsDialog({
   trigger: ReactNode;
   task: TTask;
 }) {
-  const [subtasks, setSubtasks] = useState<TSubtask[]>([]);
+  const [subtasks, setSubtasks] = useState<TSubtask[] | undefined>(undefined);
 
   const [open, setOpen] = useState(false);
   const [showNextDialog, setShowNextDialog] = useState<DialogState>("view");
@@ -28,7 +28,7 @@ export function TaskDetailsDialog({
 
   useEffect(() => {
     (async () => {
-      if (open) {
+      if (!open) {
         const subtasks = (await fetch(`/api/${task.id}/subtasks`).then((v) =>
           v.json(),
         )) as { subtasks: TSubtask[] };
