@@ -1,6 +1,7 @@
 import { deleteTask } from "@/actions/task";
 import { TaskForm } from "@/components/common/board-task-column/task-form";
 import { DeleteTaskDialogContent } from "@/components/task-details/delete-task-dialog-content";
+import { EditTaskDialogContent } from "@/components/task-details/edit-task-dialog-content";
 import { ViewTaskDialogContent } from "@/components/task-details/view-task-dialog-content";
 import {
   Dialog,
@@ -48,14 +49,7 @@ export function TaskDetailsDialog({
     >
       <DialogTrigger asChild>{trigger}</DialogTrigger>
 
-      <DialogContent
-        onInteractOutside={(e) => {
-          if (showNextDialog !== "view") {
-            e.preventDefault();
-            setShowNextDialog("view");
-          }
-        }}
-      >
+      <DialogContent>
         {showNextDialog === "delete" ? (
           <DeleteTaskDialogContent
             onDeleteTask={onDeleteTask}
@@ -66,18 +60,12 @@ export function TaskDetailsDialog({
             onCancel={() => setShowNextDialog("view")}
           />
         ) : showNextDialog === "edit" ? (
-          <>
-            <DialogHeader>
-              <DialogTitle>Edit Task</DialogTitle>
-              <DialogDescription />
-            </DialogHeader>
-            <TaskForm
-              task={task}
-              subtasks={subtasks}
-              onSave={(() => {}) as any}
-              closeDialog={() => setShowNextDialog("view")}
-            />
-          </>
+          <EditTaskDialogContent
+            task={task}
+            subtasks={subtasks ?? []}
+            setShowNextDialog={setShowNextDialog}
+            closeDialog={() => setOpen(false)}
+          />
         ) : (
           <ViewTaskDialogContent
             task={task}

@@ -21,12 +21,15 @@ export function DynamicLengthInputs({
   const [inputs, setInputs] = useState(
     list
       ? list.map((v) => ({ ...v, focus: false }))
-      : [{ id: crypto.randomUUID(), value: "", focus: false }],
+      : [{ id: `new${crypto.randomUUID()}`, value: "", focus: false }],
   );
   const inputRef = useRef<HTMLInputElement>(null);
 
   function addNewInput() {
-    setInputs([...inputs, { id: crypto.randomUUID(), value: "", focus: true }]);
+    setInputs([
+      ...inputs,
+      { id: `new${crypto.randomUUID()}`, value: "", focus: true },
+    ]);
   }
 
   function removeInput(id: string) {
@@ -49,7 +52,7 @@ export function DynamicLengthInputs({
           return (
             <div key={input.id} className="flex items-center gap-4">
               <DialogFormInput
-                name={`${nameSuffix}-${i}`}
+                name={`${nameSuffix}^${i}^${input.id}`}
                 ref={i === inputs.length - 1 ? inputRef : undefined}
                 defaultValue={input.value}
               />

@@ -7,21 +7,31 @@ import { SubmitBtn } from "@/components/common/board-task-column/submit-btn";
 import { MyButton } from "@/components/common/my-button";
 import { TSubtask, TTask } from "@/data/types";
 import { cn } from "@/lib/utils";
+import { useState } from "react";
 
 export function TaskForm({
   onSave,
   closeDialog,
+  showView,
   task,
   subtasks,
 }: {
   onSave: (formData: FormData) => Promise<void>;
   closeDialog: () => void;
+  showView?: () => void;
   task?: TTask;
   subtasks?: TSubtask[];
 }) {
+  const [btnDisabled, setBtnDisabled] = useState(false);
+
   return (
     <form
-      action={onSave}
+      action={async (formData) => {
+        console.log([...formData.entries()]);
+        await onSave(formData);
+        if (showView) requestAnimationFrame(showView);
+        closeDialog();
+      }}
       className={cn("mt-6 flex flex-col gap-6", task && "gap-4")}
     >
       <DialogFormLabel label="Title">
@@ -61,15 +71,24 @@ a little."
         nameSuffix="subtask"
       />
 
-      <StatusSelect />
+      <StatusSelect
+        setBtnDisabled={setBtnDisabled}
+        taskId={task?.id}
+        serverStatus={task?.status}
+      />
 
       {task && (
-        <MyButton size="short" variant="destructive" onClick={closeDialog}>
+        <MyButton
+          disabled={btnDisabled}
+          size="short"
+          variant="destructive"
+          onClick={showView}
+        >
           Return To View
         </MyButton>
       )}
 
-      <SubmitBtn closeDialog={closeDialog}>
+      <SubmitBtn disabled={btnDisabled} closeDialog={closeDialog}>
         {task ? "Save Changes" : "Create New Task"}
       </SubmitBtn>
     </form>

@@ -2,12 +2,14 @@
 
 import { MyButton } from "@/components/common/my-button";
 import { useCloseDialogAfterSubmission } from "@/hooks/use-close-dialog-after-submission";
-import { ReactNode } from "react";
+import { ComponentProps, ReactNode } from "react";
 
 export function SubmitBtn({
   closeDialog,
   children,
-}: {
+  disabled,
+  ...rest
+}: ComponentProps<"button"> & {
   closeDialog: () => void;
   children: ReactNode;
 }) {
@@ -15,10 +17,11 @@ export function SubmitBtn({
 
   return (
     <MyButton
-      disabled={pending}
+      disabled={disabled || pending}
       variant={"primary"}
       size={"short"}
       type="submit"
+      {...rest}
     >
       {children}
     </MyButton>
