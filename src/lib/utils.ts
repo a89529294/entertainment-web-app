@@ -36,11 +36,3 @@ export function generateRandomColor(str: string) {
 
   return color;
 }
-
-// export async function redirectIfInvalidSession() {
-//   const auth = await validateRequest();
-
-//   if (!auth.user) return redirect("/");
-
-//   return auth;
-// }

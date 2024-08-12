@@ -32,18 +32,20 @@ export function BoardSelect({ boards }: { boards: TBoard[] }) {
 
   return (
     <>
+      <h1 className="hidden text-xl font-bold md:block">{board?.name}</h1>
       <NavigationMenu
         value={value}
         onValueChange={(v) => {
           setValue(v);
         }}
         viewportClassName={cn("top-9")}
+        className="block md:hidden"
       >
         {value && (
           <div
             className={cn(
-              "fixed inset-0 top-16 bg-black/50 transition-opacity ",
-              value && !showDialog ? "opacity-100" : "opacity-0"
+              "fixed inset-0 top-16 bg-black/50 transition-opacity",
+              value && !showDialog ? "opacity-100" : "opacity-0",
             )}
           />
         )}
@@ -51,7 +53,7 @@ export function BoardSelect({ boards }: { boards: TBoard[] }) {
         <NavigationMenuList>
           <NavigationMenuItem>
             <NavigationMenuTrigger
-              className="w-40 p-0 h-auto "
+              className="h-auto w-40 p-0"
               onPointerEnter={(e) => e.preventDefault()}
               onPointerLeave={(e) => e.preventDefault()}
               onPointerMove={(e) => e.preventDefault()}
@@ -62,9 +64,9 @@ export function BoardSelect({ boards }: { boards: TBoard[] }) {
               onPointerEnter={(e) => e.preventDefault()}
               onPointerLeave={(e) => e.preventDefault()}
               className={cn(
-                "py-4 pr-6 text-medium-grey rounded-lg",
+                "rounded-lg py-4 pr-6 text-medium-grey",
                 textHeadingM,
-                showDialog && "p-0"
+                showDialog && "p-0",
               )}
             >
               {showDialog ? (
@@ -75,7 +77,7 @@ export function BoardSelect({ boards }: { boards: TBoard[] }) {
                 />
               ) : (
                 <>
-                  <BoardSelectLinks boards={boards} />
+                  <BoardSelectLinks boards={boards} useNavigationMenuLink/>
                   <CreateNewBoard setShowDialog={() => setShowDialog(true)} />
                   <ThemeToggle />
                 </>

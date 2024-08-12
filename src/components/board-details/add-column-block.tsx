@@ -35,7 +35,7 @@ export function AddColumnBlock({
   return (
     <li
       ref={ref}
-      className="grid w-72 shrink-0 place-items-center rounded-md bg-gradient-to-b from-[#E9EFFA] to-[#E9EFFA80]"
+      className="grid w-72 shrink-0 place-items-center rounded-md bg-gradient-to-b from-[#E9EFFA] to-[#E9EFFA80] dark:from-dark-grey/25 dark:to-dark-grey/15"
     >
       <BoardTaskColumnDialog
         trigger={

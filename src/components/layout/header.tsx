@@ -7,16 +7,26 @@ import { DeleteBoardBtn } from "@/components/layout/delete-board-btn";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { getUserBoards } from "@/data/get-boards";
 import { getUser } from "@/data/get-user-else-redirect-to-login";
+import { TBoard } from "@/data/types";
+import { cn } from "@/lib/utils";
 import { textbodyL } from "@/styles/custom-class-names";
 import Image from "next/image";
 
-export async function Header() {
-  const user = await getUser();
-  const boards = user ? await getUserBoards(user.id) : [];
-
+export async function Header({
+  className,
+  boards,
+}: {
+  className?: string;
+  boards: TBoard[];
+}) {
   return (
-    <header className="sticky top-0 z-10 flex items-center gap-4 bg-white px-4 py-5 dark:bg-dark-grey">
-      <Image alt="logo" src={logo} className="size-6" />
+    <header
+      className={cn(
+        "md:border-line-light dark:md:border-line-dark flex h-16 flex-1 items-center gap-4 bg-white px-4 md:h-20 md:border-b md:border-l lg:h-24 dark:bg-dark-grey",
+        className,
+      )}
+    >
+      <Image alt="logo" src={logo} className="block size-6 md:hidden" />
       <BoardSelect boards={boards} />
 
       <TripleDotsWithMenu triggerClassName="ml-auto" menuClassName="mt-5">

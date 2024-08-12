@@ -6,17 +6,20 @@ import { MyButton } from "@/components/common/my-button";
 import { useEffect, useRef, useState } from "react";
 import grayX from "@/assets/gray-x.svg";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 export function DynamicLengthInputs({
   label,
   nameSuffix,
-  max = 3,
+  max = 10,
   list,
+  maxHeight,
 }: {
   label: string;
   nameSuffix: string;
   max?: number;
   list?: { id: string; value: string }[];
+  maxHeight?: string;
 }) {
   const [inputs, setInputs] = useState(
     list
@@ -47,7 +50,12 @@ export function DynamicLengthInputs({
   return (
     <fieldset className="flex flex-col gap-3">
       <DialogFormLabel label={label} />
-      <div className="flex max-h-10 flex-col gap-3 overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-main-purple">
+      <div
+        className={cn(
+          "flex max-h-10 flex-col gap-3 overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-main-purple",
+          maxHeight,
+        )}
+      >
         {inputs.map((input, i) => {
           return (
             <div key={input.id} className="flex items-center gap-4">
@@ -75,8 +83,9 @@ export function DynamicLengthInputs({
         variant="secondary"
         onClick={addNewInput}
         type="button"
+        className="capitalize"
       >
-        +Add New Task
+        + Add New {nameSuffix}
       </MyButton>
     </fieldset>
   );

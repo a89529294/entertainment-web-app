@@ -17,27 +17,18 @@ import { ReactNode, useEffect, useState } from "react";
 export function TaskDetailsDialog({
   trigger,
   task,
+  subtasks,
+  open,
+  setOpen,
 }: {
+  open: boolean;
+  setOpen: (v: boolean) => void;
   trigger: ReactNode;
   task: TTask;
+  subtasks: TSubtask[] | undefined;
 }) {
-  const [subtasks, setSubtasks] = useState<TSubtask[] | undefined>(undefined);
-
-  const [open, setOpen] = useState(false);
   const [showNextDialog, setShowNextDialog] = useState<DialogState>("view");
   const onDeleteTask = deleteTask.bind(null, task.id);
-
-  useEffect(() => {
-    (async () => {
-      if (!open) {
-        const subtasks = (await fetch(`/api/${task.id}/subtasks`).then((v) =>
-          v.json(),
-        )) as { subtasks: TSubtask[] };
-
-        setSubtasks(subtasks.subtasks);
-      }
-    })();
-  }, [task.id, open]);
 
   return (
     <Dialog
@@ -49,7 +40,7 @@ export function TaskDetailsDialog({
     >
       <DialogTrigger asChild>{trigger}</DialogTrigger>
 
-      <DialogContent>
+      <DialogContent className="dark:bg-dark-grey">
         {showNextDialog === "delete" ? (
           <DeleteTaskDialogContent
             onDeleteTask={onDeleteTask}

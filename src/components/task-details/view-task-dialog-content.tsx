@@ -63,7 +63,7 @@ export function ViewTaskDialogContent({
           <h2
             className={cn(
               textHeadingS,
-              "mb-4 flex items-center gap-0.5 tracking-normal text-medium-grey",
+              "mb-4 flex items-center gap-0.5 tracking-normal text-medium-grey dark:text-white",
             )}
           >
             Subtasks
@@ -81,14 +81,20 @@ export function ViewTaskDialogContent({
             ) : (
               <Skeleton className="h-4 w-10" />
             )}
+            <span>(max 10)</span>
           </h2>
-          <ul className={cn("flex flex-col gap-2 text-black", textBodyM)}>
+          <ul
+            className={cn(
+              "flex max-h-[248px] flex-col gap-2 overflow-y-auto text-black scrollbar-thin scrollbar-track-transparent scrollbar-thumb-main-purple",
+              textBodyM,
+            )}
+          >
             {localSubtasks ? (
               localSubtasks.map((subtask) => {
                 return (
                   <li
                     key={subtask.id}
-                    className="flex items-center gap-4 rounded-sm bg-light-grey px-3 py-4"
+                    className="flex items-center gap-4 rounded-sm bg-light-grey px-3 py-4 dark:bg-very-dark-grey"
                   >
                     <input
                       type="checkbox"
@@ -114,7 +120,7 @@ export function ViewTaskDialogContent({
                       }}
                       checked={subtask.completed}
                     />
-                    <p className="peer-checked:text-black/50 peer-checked:line-through">
+                    <p className="peer-checked:text-black/50 peer-checked:line-through dark:text-white dark:peer-checked:text-white/50">
                       {subtask.name}
                     </p>
                   </li>

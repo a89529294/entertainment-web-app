@@ -1,6 +1,7 @@
 import { DragAndDropArea } from "@/components/board-details/drag-and-drop-area";
 import { AddNewBoardOrColumn } from "@/components/common/add-new-board-or-column";
 import { getColumnsAndTasksForBoard } from "@/data/get-columns-for-board";
+import { getUserElseRedirectToLogin } from "@/data/get-user-else-redirect-to-login";
 import { TAggregatedColumnWithTasks } from "@/data/types";
 
 export default async function Board({
@@ -8,6 +9,8 @@ export default async function Board({
 }: {
   params: { board_id: string; board_name: string };
 }) {
+  getUserElseRedirectToLogin();
+
   const columns = await getColumnsAndTasksForBoard(params.board_id);
 
   const uniqueColumns = {} as Record<string, TAggregatedColumnWithTasks>;

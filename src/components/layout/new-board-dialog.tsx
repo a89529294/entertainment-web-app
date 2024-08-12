@@ -1,5 +1,6 @@
 import { addNewBoard } from "@/actions/board";
 import grayX from "@/assets/gray-x.svg";
+import { DynamicLengthInputs } from "@/components/common/board-task-column/dynamic-length-inputs";
 import { MyButton } from "@/components/common/my-button";
 import {
   Dialog,
@@ -39,7 +40,7 @@ export function NewBoardDialog({
       onOpenChange={(open) => {
         setTimeout(() => {
           setShowDialog(open);
-        }, 1000);
+        }, 100);
         !open && setValue("");
       }}
     >
@@ -58,65 +59,12 @@ export function NewBoardDialog({
             <Input className="" name="name" />
           </Label>
           <div>
-            <h3 className="mb-2 text-xs font-bold text-medium-grey">
-              Board Columns
-            </h3>
-            <fieldset
-              className="flex flex-col gap-3"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {columns.map((column, idx) => {
-                return (
-                  <div className="flex gap-4" key={column.id}>
-                    <Input
-                      value={column.name}
-                      onChange={(e) =>
-                        setColumns((columns) => {
-                          return columns.map((c, idx) =>
-                            c.id === column.id
-                              ? {
-                                  id: c.id,
-                                  name: e.target.value.trim(),
-                                }
-                              : c,
-                          );
-                        })
-                      }
-                      name={`column-${idx}`}
-                    />
-                    <button>
-                      <Image
-                        alt="close"
-                        src={grayX}
-                        onClick={() =>
-                          setColumns((columns) =>
-                            columns.filter((c) => c.id !== column.id),
-                          )
-                        }
-                      />
-                    </button>
-                  </div>
-                );
-              })}
-
-              <MyButton
-                onClick={() =>
-                  setColumns((prev) => [
-                    ...prev,
-                    {
-                      id: crypto.randomUUID(),
-                      name: "",
-                    },
-                  ])
-                }
-                type="button"
-                variant="secondary"
-                size="short"
-                disabled={columns.length === 4}
-              >
-                + Add New Column
-              </MyButton>
-            </fieldset>
+            <DynamicLengthInputs
+              label="Board Name"
+              nameSuffix="column"
+              max={10}
+              maxHeight="max-h-[248px]"
+            />
           </div>
           {/* <MyButton type="submit" size="short" variant="primary">
             Create New Board

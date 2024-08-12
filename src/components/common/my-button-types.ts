@@ -17,7 +17,7 @@ export const variantsMap = {
   },
   secondary: {
     className:
-      "bg-main-purple/10 text-main-purple hover:bg-main-purple/25 disabled:hover:bg-main-purple/10 ",
+      "bg-main-purple/10 dark:bg-white text-main-purple hover:bg-main-purple/25 disabled:hover:bg-main-purple/10 ",
   },
 } satisfies Record<MyButtonProps["variant"], any>;
 

@@ -2,11 +2,11 @@ import { TTask } from "@/data/types";
 import { db } from "@/lib/db";
 import { unstable_cache } from "next/cache";
 
-export const getTasksForColumn = unstable_cache(
-  async (columnId: string) =>
-    db`SELECT * FROM tasks WHERE column_id = ${columnId}` as Promise<TTask[]>,
-  ["tasks"],
+export const getTaskAndSubtasks = unstable_cache(
+  async (taskId: string) =>
+    db`SELECT st.* FROM tasks as t JOIN subtasks as st ON t.id = st.task_id WHERE t.id = ${taskId}`,
+  ["task-and-subtasks"],
   {
-    tags: ["tasks"],
+    tags: ["task-and-subtasks"],
   },
 );

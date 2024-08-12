@@ -1,8 +1,11 @@
 "use server";
 
+import { getUserElseRedirectToLogin } from "@/data/get-user-else-redirect-to-login";
 import { NewTask, TColumn, TTask } from "@/data/types";
+import { validateRequest } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { revalidateTag } from "next/cache";
+import { redirect } from "next/navigation";
 
 export async function addNewColumn(
   boardId: string,
@@ -38,6 +41,8 @@ export async function addNewColumn(
 }
 
 export async function deleteColumn(columnId: string) {
+  getUserElseRedirectToLogin();
+
   try {
     await db`DELETE FROM columns WHERE id = ${columnId}`;
 

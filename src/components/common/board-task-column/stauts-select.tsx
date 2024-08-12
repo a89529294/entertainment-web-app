@@ -30,7 +30,12 @@ export function StatusSelect({
 
   return (
     <div>
-      <h2 className={cn(textHeadingS, "mb-2 tracking-normal text-medium-grey")}>
+      <h2
+        className={cn(
+          textHeadingS,
+          "mb-2 tracking-normal text-medium-grey dark:text-white",
+        )}
+      >
         Current Status
       </h2>
 

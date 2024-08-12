@@ -47,7 +47,7 @@ export async function AuthPageShell({
       <div className="mx-auto w-80 space-y-6">
         <div className="space-y-2 text-center">
           <h1 className="text-3xl font-bold">{typeMap[type]["title"]}</h1>
-          <p className="text-main-purple flex items-center justify-center">
+          <p className="flex items-center justify-center text-main-purple">
             <Image alt="logo" src={logo} className="size-8" />
             Kanban Task Management
           </p>
@@ -63,7 +63,7 @@ export async function AuthPageShell({
           <Link
             href="/login/github"
             className={cn(
-              buttonVariants({ className: "w-full", variant: "outline" })
+              buttonVariants({ className: "w-full", variant: "outline" }),
             )}
           >
             <GitlabIcon className="mr-2 h-4 w-4" />
@@ -72,7 +72,7 @@ export async function AuthPageShell({
           <Link
             href="/login/google"
             className={cn(
-              buttonVariants({ className: "w-full", variant: "outline" })
+              buttonVariants({ className: "w-full", variant: "outline" }),
             )}
           >
             <ChromeIcon className="mr-2 h-4 w-4" />

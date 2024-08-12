@@ -26,6 +26,7 @@ export function NewBoardOrColumnForm({
       <DynamicLengthInputs
         label={type === "board" ? "Columns" : "Tasks"}
         nameSuffix={type === "board" ? "column" : "task"}
+        maxHeight="max-h-[248px]"
       />
 
       <SubmitBtn closeDialog={closeDialog}>

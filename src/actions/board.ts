@@ -4,9 +4,9 @@ import { TBoard, TColumn } from "@/data/types";
 import { db } from "@/lib/db";
 import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
+import { NextRequest } from "next/server";
 
 export async function addNewBoard(userId: string, formData: FormData) {
-  console.log(formData);
   let success = false;
   let boardId = "";
 

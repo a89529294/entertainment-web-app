@@ -10,7 +10,10 @@ export const DialogFormInput = forwardRef<
   return (
     <Input
       ref={ref}
-      className={cn(textbodyL, "placeholder:text-black/25")}
+      className={cn(
+        textbodyL,
+        "border-border-grey border placeholder:text-black/25 dark:bg-transparent",
+      )}
       {...props}
     />
   );

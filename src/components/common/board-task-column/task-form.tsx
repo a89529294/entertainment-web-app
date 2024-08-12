@@ -67,8 +67,8 @@ a little."
 
       <DynamicLengthInputs
         list={subtasks?.map((v) => ({ id: v.id, value: v.name }))}
-        label="Subtasks"
         nameSuffix="subtask"
+        label="Subtasks (max 10)"
       />
 
       <StatusSelect

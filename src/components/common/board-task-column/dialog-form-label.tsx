@@ -13,7 +13,9 @@ export function DialogFormLabel({
 }) {
   return (
     <Label className={cn("flex flex-col gap-2", className)}>
-      <span className="font-bold text-medium-grey ">{label}</span>
+      <span className="text-xs font-bold text-medium-grey dark:text-white">
+        {label}
+      </span>
       {children}
     </Label>
   );

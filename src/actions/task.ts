@@ -1,8 +1,8 @@
 "use server";
 
-import { TSubtask, TTask } from "@/data/types";
+import { getUserElseRedirectToLogin } from "@/data/get-user-else-redirect-to-login";
+import { TSubtask } from "@/data/types";
 import { db } from "@/lib/db";
-// import { redirectIfInvalidSession } from "@/lib/utils";
 import { revalidateTag } from "next/cache";
 
 export async function addNewTask(
@@ -10,6 +10,8 @@ export async function addNewTask(
   sequence: number,
   formData: FormData,
 ) {
+  getUserElseRedirectToLogin();
+
   const name = formData.get("name")!.toString().trim();
   const description = formData.get("description")?.toString().trim() ?? "";
 

@@ -28,7 +28,10 @@ export function Column({
       items={column.tasks}
       strategy={verticalListSortingStrategy}
     >
-      <li className="h-full shrink-0" ref={setNodeRef}>
+      <li
+        className="h-full shrink-0 first-of-type:h-[calc(100%-88px)]"
+        ref={setNodeRef}
+      >
         <ul className="relative flex h-full flex-col gap-5">
           <h2
             className={cn(
