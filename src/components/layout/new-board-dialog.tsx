@@ -8,6 +8,7 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -16,23 +17,21 @@ import { useUserId } from "@/hooks/use-user-id";
 import { cn } from "@/lib/utils";
 import { textHeadingL } from "@/styles/custom-class-names";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { useFormStatus } from "react-dom";
 
 export function NewBoardDialog({
   showDialog,
   setShowDialog,
-  setValue,
+  onCloseDialog,
+  dialogTrigger,
 }: {
   showDialog: boolean;
   setShowDialog: (arg: boolean) => void;
-  setValue: (arg: string) => void;
+  onCloseDialog?: () => void;
+  dialogTrigger?: ReactNode;
 }) {
   const userId = useUserId();
-
-  const [columns, setColumns] = useState([
-    { id: crypto.randomUUID(), name: "" },
-  ]);
 
   return (
     <Dialog
@@ -41,9 +40,10 @@ export function NewBoardDialog({
         setTimeout(() => {
           setShowDialog(open);
         }, 100);
-        !open && setValue("");
+        !open && onCloseDialog && onCloseDialog();
       }}
     >
+      <DialogTrigger asChild>{dialogTrigger}</DialogTrigger>
       <DialogContent className="gap-6 p-6">
         <DialogHeader>
           <DialogTitle className={cn("text-left", textHeadingL)}>
@@ -66,13 +66,11 @@ export function NewBoardDialog({
               maxHeight="max-h-[248px]"
             />
           </div>
-          {/* <MyButton type="submit" size="short" variant="primary">
-            Create New Board
-          </MyButton> */}
+
           <SubmitButton
             closeMenu={() => {
               requestIdleCallback(() => setShowDialog(false));
-              setValue("");
+              onCloseDialog && onCloseDialog();
             }}
           />
         </form>

@@ -71,13 +71,13 @@ export function BoardSelect({ boards }: { boards: TBoard[] }) {
             >
               {showDialog ? (
                 <NewBoardDialog
-                  setValue={setValue}
+                  onCloseDialog={() => setValue("")}
                   setShowDialog={setShowDialog}
                   showDialog={showDialog}
                 />
               ) : (
                 <>
-                  <BoardSelectLinks boards={boards} useNavigationMenuLink/>
+                  <BoardSelectLinks boards={boards} useNavigationMenuLink />
                   <CreateNewBoard setShowDialog={() => setShowDialog(true)} />
                   <ThemeToggle />
                 </>

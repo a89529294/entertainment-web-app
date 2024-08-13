@@ -1,22 +1,29 @@
+import { BoardIcon } from "@/components/icons/board-icon";
 import {
   NavigationMenuLink,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
-import { BoardIcon } from "@/components/icons/board-icon";
+import { NavigationMenuLinkProps } from "@radix-ui/react-navigation-menu";
+import { forwardRef, ForwardRefExoticComponent, RefAttributes } from "react";
 
-import { useEffect, useState } from "react";
+const CreateNewBoard = forwardRef<
+  | "button"
+  | ForwardRefExoticComponent<
+      NavigationMenuLinkProps & RefAttributes<HTMLAnchorElement>
+    >,
+  {
+    setShowDialog: () => void;
+    useButtonAsWrapper?: boolean;
+  }
+>(function CreateNewBoard({ setShowDialog, useButtonAsWrapper }, ref) {
+  const WrapperComponent = useButtonAsWrapper ? "button" : NavigationMenuLink;
 
-export function CreateNewBoard({
-  setShowDialog,
-}: {
-  setShowDialog: () => void;
-}) {
   return (
-    <NavigationMenuLink
+    <WrapperComponent
       className={cn(
         navigationMenuTriggerStyle(),
-        "w-60 rounded-r-full dark:bg-transparent justify-start px-6 py-3.5 h-auto text-main-purple"
+        "h-auto w-60 justify-start rounded-r-full px-6 py-3.5 text-main-purple dark:bg-transparent",
       )}
       href="#"
       onClick={(e) => {
@@ -25,6 +32,8 @@ export function CreateNewBoard({
       }}
     >
       <BoardIcon fill="#635FC7" className="mr-3" />+ Create New Board
-    </NavigationMenuLink>
+    </WrapperComponent>
   );
-}
+});
+
+export { CreateNewBoard };

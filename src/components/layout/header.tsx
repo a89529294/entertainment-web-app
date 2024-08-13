@@ -5,8 +5,6 @@ import { TripleDotsWithMenu } from "@/components/common/triple-dots-with-menu";
 import { BoardSelect } from "@/components/layout/board-select";
 import { DeleteBoardBtn } from "@/components/layout/delete-board-btn";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { getUserBoards } from "@/data/get-boards";
-import { getUser } from "@/data/get-user-else-redirect-to-login";
 import { TBoard } from "@/data/types";
 import { cn } from "@/lib/utils";
 import { textbodyL } from "@/styles/custom-class-names";
