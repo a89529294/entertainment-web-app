@@ -48,7 +48,7 @@ export async function addNewBoard(userId: string, formData: FormData) {
   }
 }
 
-export async function deleteBoard(boardId: number, formData: FormData) {
+export async function deleteBoard(boardId: string) {
   let success = false;
   try {
     await db`DELETE FROM boards WHERE id = ${boardId}`;
