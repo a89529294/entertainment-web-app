@@ -43,7 +43,7 @@ export function NewBoardDialog({
         !open && onCloseDialog && onCloseDialog();
       }}
     >
-      <DialogTrigger asChild>{dialogTrigger}</DialogTrigger>
+      <DialogTrigger>{dialogTrigger}</DialogTrigger>
       <DialogContent className="gap-6 p-6">
         <DialogHeader>
           <DialogTitle className={cn("text-left", textHeadingL)}>
@@ -60,7 +60,7 @@ export function NewBoardDialog({
           </Label>
           <div>
             <DynamicLengthInputs
-              label="Board Name"
+              label="Column Name"
               nameSuffix="column"
               max={10}
               maxHeight="max-h-[248px]"

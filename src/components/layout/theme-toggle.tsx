@@ -9,8 +9,6 @@ import { useContext } from "react";
 export function ThemeToggle({ className }: { className?: string }) {
   const { theme, setTheme } = useContext(themeContext);
 
-  console.log(setTheme);
-
   return (
     <div
       className={cn(
