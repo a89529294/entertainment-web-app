@@ -51,6 +51,8 @@ export async function swapTaskSequence(
   const p1 = db`UPDATE tasks SET sequence = ${task1.newSequence} WHERE id = ${task1.id}`;
   const p2 = db`UPDATE tasks SET sequence = ${task2.newSequence} WHERE id = ${task2.id}`;
   await Promise.all([p1, p2]);
+
+  revalidateTag("columns-with-tasks");
 }
 
 export async function updateTaskSequences(
@@ -70,6 +72,8 @@ export async function updateTaskSequences(
   }
 
   await Promise.all(promises);
+
+  revalidateTag("columns-with-tasks");
 }
 
 export async function deleteTask(taskId: string) {
@@ -83,7 +87,6 @@ export async function updateTask(
   serverSubtasks: TSubtask[],
   formData: FormData,
 ) {
-  console.log(taskId, serverSubtasks, [...formData.entries()]);
   const taskDetails = {
     name: formData.get("name")?.toString().trim(),
     description: formData.get("description")?.toString().trim(),

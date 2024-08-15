@@ -1,5 +1,4 @@
 import { addNewBoard } from "@/actions/board";
-import grayX from "@/assets/gray-x.svg";
 import { DynamicLengthInputs } from "@/components/common/board-task-column/dynamic-length-inputs";
 import { MyButton } from "@/components/common/my-button";
 import {
@@ -16,8 +15,7 @@ import { usePrevValue } from "@/hooks/use-prev-value";
 import { useUserId } from "@/hooks/use-user-id";
 import { cn } from "@/lib/utils";
 import { textHeadingL } from "@/styles/custom-class-names";
-import Image from "next/image";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 import { useFormStatus } from "react-dom";
 
 export function NewBoardDialog({
